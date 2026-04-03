@@ -1,0 +1,14 @@
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.GeneratedMSBuildEditorConfig.editorconfig
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.AssemblyInfoInputs.cache
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.AssemblyInfo.cs
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.csproj.CoreCompileInputs.cache
+D:\Customizations\UsbSwitcher\bin\Debug\net10.0\UsbSwitcher.exe
+D:\Customizations\UsbSwitcher\bin\Debug\net10.0\UsbSwitcher.deps.json
+D:\Customizations\UsbSwitcher\bin\Debug\net10.0\UsbSwitcher.runtimeconfig.json
+D:\Customizations\UsbSwitcher\bin\Debug\net10.0\UsbSwitcher.dll
+D:\Customizations\UsbSwitcher\bin\Debug\net10.0\UsbSwitcher.pdb
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.dll
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\refint\UsbSwitcher.dll
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.pdb
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\UsbSwitcher.genruntimeconfig.cache
+D:\Customizations\UsbSwitcher\obj\Debug\net10.0\ref\UsbSwitcher.dll

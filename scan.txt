@@ -1,0 +1,1202 @@
+Total present devices enumerated: 254
+
+================================================================================
+FriendlyName : 慒敺⁲慎楲唠瑬浩瑡⁥‭慇敭�
+Class        : 䕍䥄A
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_051A&MI_03\6&74E3938&0&0003
+LocationInfo : 〰〰〮㄰⸴〰〰〮㠰〮〰〮〰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤸唣䉓䥍㌨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤸唣䉓䥍㌨)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉たㄵ♁䕒彖㄰〰䴦彉㌰唀䉓噜䑉ㅟ㌵☲䥐彄㔰䄱䴦彉㌰
+================================================================================
+FriendlyName : 楖瑲慵⁬敄歳潴⁰潍楮潴r
+Class        : 楄灳慬y
+Enumerator   : 佒呏�
+InstanceId   : ROOT\DISPLAY\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 潒瑯癜癤摭
+================================================================================
+FriendlyName : 敍慴嘠物畴污䴠湯瑩牯�
+Class        : 楄灳慬y
+Enumerator   : 佒呏�
+InstanceId   : ROOT\DISPLAY\0001
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 潒瑯䵜瑥噡物畴污捓敲湥牄癩牥
+================================================================================
+FriendlyName : 潍桴牥潢牡⁤敲潳牵散s
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C02\0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐䰨䍐⥂䄣偃⡉䥓ㅏ)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃ2䍁䥐停偎䌰㈰⨀乐ぐぃ2�
+================================================================================
+FriendlyName : 潍桴牥潢牡⁤敲潳牵散s
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C02\1
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐倨剄⥃
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃ2䍁䥐停偎䌰㈰⨀乐ぐぃ2�
+================================================================================
+FriendlyName : 潍桴牥潢牡⁤敲潳牵散s
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C02\2
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐䰨䍐⥂䄣偃⡉䑌䍒)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃ2䍁䥐停偎䌰㈰⨀乐ぐぃ2�
+================================================================================
+FriendlyName : 潍桴牥潢牡⁤敲潳牵散s
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C02\5
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剕䍓)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃ2䍁䥐停偎䌰㈰⨀乐ぐぃ2�
+================================================================================
+FriendlyName : 䥈ⵄ潣灭楬湡⁴敶摮牯搭晥湩摥搠癥捩e
+Class        : 䥈䍄慬獳�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_051A&MI_05&COL02\7&2180D659&0&0001
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉たㄵ♁䕒彖㄰〰䴦彉㔰䌦汯㈰䠀䑉噜䑉ㅟ㌵☲䥐彄㔰䄱䴦彉㔰䌦汯㈰䠀䑉噜䑉ㅟ㌵☲偕䘺䍆弰㩕〰㄰䠀䑉䑟噅䍉彅偕䘺䍆弰㩕〰㄰䠀䑉䑟噅䍉彅偕㩒䙆〰䘭䙆F䥈彄䕄䥖䕃
+================================================================================
+FriendlyName : 䝖㜲允䄳⠠噎䑉䅉䠠杩⁨敄楦楮楴湯䄠摵潩)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{388DBD46-5787-47BC-8596-8F3253842424}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 楍牣獯景⁴瑓敲浡湩⁧敓癲捩⁥牐硯y
+Class        : 䕍䥄A
+Enumerator   : 坓�
+InstanceId   : SW\{96E080C7-143C-11D1-B40F-00A0C9223196}\{3C0D501A-140B-11D1-B40F-00A0C9223196}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 坓筜㘹ぅ〸㝃ㄭ㌴ⵃㄱㅄ䈭〴ⵆ〰ぁ㥃㈲ㄳ㘹}�
+================================================================================
+FriendlyName : 湉整⡬⥒倠䥃䔠灸敲獳删潯⁴潐瑲⌠‱‭䄷㠳�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A38&SUBSYS_00000000&REV_11\3&11583659&0&E0
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥㠲‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨぃ⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉偒㄰)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㍁☸啓卂卙た〰〰〰☰䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷㠳匦䉕奓当〰〰〰〰倀䥃噜久㡟㠰☶䕄彖䄷㠳刦噅ㅟ1䍐屉䕖彎〸㘸䐦噅㝟㍁8䍐屉䕖彎〸㘸䐦噅㝟㍁☸䍃た〶〴0䍐屉䕖彎〸㘸䐦噅㝟㍁☸䍃た〶4�
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_0098&MI_01\7&24F50895&3&0001
+LocationInfo : 〰〰〮㄰⸴〰〰〮㔰〮㄰〮〰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓ㄨ〈单䵂⡉⤱䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㔰〈䍁䥐䠨卓⤱唣䉓䥍ㄨ)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉㄰唀䉓噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉㄰
+================================================================================
+FriendlyName : 湉整⡬⥒唠䉓㌠㈮‰塥整獮扩敬䠠獯⁴潃瑮潲汬牥ⴠㄠ㈮‰䴨捩潲潳瑦)
+Class        : 单B
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A60&SUBSYS_7E061462&REV_11\3&11583659&0&A0
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥〲‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㙁☰啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷〶匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷〶䌦彃䌰㌰〳倀䥃噜久㡟㠰☶䕄彖䄷〶䌦彃䌰㌰
+================================================================================
+FriendlyName : 䥈ⵄ潣灭楬湡⁴敤楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_0098&MI_01&COL05\8&18DC1EEA&0&0004
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉㄰䌦汯㔰䠀䑉噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉㄰䌦汯㔰䠀䑉噜䑉ㅟ㌵☲偕〺〰弱㩕〰〰䠀䑉䑟噅䍉彅偕〺〰弱㩕〰〰䠀䑉䑟噅䍉E�
+================================================================================
+FriendlyName : 湉整⡬⥒䜠䅎匠潣楲杮䄠捣汥牥瑡牯洠摯汵e
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_A74F&SUBSYS_7E061462&REV_01\3&11583659&0&40
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ⰸ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃〨〸⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉乇ぁ)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅䅟㐷♆啓卂卙㝟ぅㄶ㘴☲䕒彖㄰倀䥃噜久㡟㠰☶䕄彖㝁䘴匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖㝁䘴䌦彃㠰〸〰倀䥃噜久㡟㠰☶䕄彖㝁䘴䌦彃㠰〸
+================================================================================
+FriendlyName : 楓⁭捁散獳匠牥楶散�
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000112D-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰㈱ⵤ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ搲〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 扏敪瑣倠獵⁨敓癲捩e
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001105-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⴵ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ㔰〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 䥍䥄㈠〮匠牥楶散吠獥獴�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MIDISRV\MIDIU_DIAG_TRANSPORT
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 䍐⁉瑳湡慤摲栠獯⁴偃⁕牢摩敧�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_A704&SUBSYS_7E061462&REV_01\3&11583659&0&00
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ⰰ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃〨〰⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䍍彟)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅䅟〷☴啓卂卙㝟ぅㄶ㘴☲䕒彖㄰倀䥃噜久㡟㠰☶䕄彖㝁㐰匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖㝁㐰䌦彃㘰〰〰倀䥃噜久㡟㠰☶䕄彖㝁㐰䌦彃㘰〰
+================================================================================
+FriendlyName : 䍁䥐䘠湡�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0B\0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅆ぎ)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃB䍁䥐停偎䌰䈰⨀乐ぐぃB�
+================================================================================
+FriendlyName : 䍁䥐䘠湡�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0B\1
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅆ㅎ)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃB䍁䥐停偎䌰䈰⨀乐ぐぃB�
+================================================================================
+FriendlyName : 䍁䥐䘠湡�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0B\2
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅆㉎)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃB䍁䥐停偎䌰䈰⨀乐ぐぃB�
+================================================================================
+FriendlyName : 䍁䥐䘠湡�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0B\3
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅆㍎)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃB䍁䥐停偎䌰䈰⨀乐ぐぃB�
+================================================================================
+FriendlyName : 䍁䥐䘠湡�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0B\4
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅆㑎)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃB䍁䥐停偎䌰䈰⨀乐ぐぃB�
+================================================================================
+FriendlyName : 䍐䴠湯删朳獩瑡e
+Class        : 求敵潴瑯h
+Enumerator   : 呂䱈E
+InstanceId   : BTHLE\DEV_80E12662D94C\7&69A2581&0&80E12662D94C
+LocationInfo : 求敵潴瑯⁨䕌䐠癥捩e
+LocationPath : 
+HardwareIds  : 呂䱈居敄彶〸ㅥ㘲㈶㥤挴
+================================================================================
+FriendlyName : 䍁䥐倠潲散獳牯䄠杧敲慧潴r
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\ACPI000C\2&DABA3FF&0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䅐䑇)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰䌰䄀偃屉䍁䥐〰䌰⨀䍁䥐〰䌰
+================================================================================
+FriendlyName : 䥈⁄敋批慯摲䐠癥捩e
+Class        : 敋批慯摲�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_046D&PID_C232\2&83C23E8&0&0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㐰䐶倦䑉䍟㌲2䥈屄䥖彄㐰䐶唦㩐〰㄰啟〺〰6䥈彄䕄䥖䕃卟卙䕔彍䕋䉙䅏䑒䠀䑉䑟噅䍉彅偕〺〰弱㩕〰㘰䠀䑉䑟噅䍉E�
+================================================================================
+FriendlyName : 潒瑯倠楲瑮儠敵敵�
+Class        : 牐湩兴敵敵�
+Enumerator   : 坓D
+InstanceId   : SWD\PRINTENUM\PRINTQUEUES
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 剐义䕔啎屍潌慣偬楲瑮畑略e�
+================================================================================
+FriendlyName : 求敵潴瑯⁨䥈⁄敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001124-0000-1000-8000-00805F9B34FB}_VID&0002054C_PID&09CC\7&6C95BA&1&48188D425EE3_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰㈱ⴴ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〲㐵彣䥐♄㤰捣䈀䡔久䵕筜〰〰ㄱ㐲〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 慒敺⁲慎楲唠瑬浩瑡⁥‭桃瑡�
+Class        : 䕍䥄A
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_051A&MI_00\6&74E3938&0&0000
+LocationInfo : 〰〰〮㄰⸴〰〰〮㠰〮〰〮〰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤸唣䉓䥍〨)䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤸唣䉓㠨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤸唣䉓䥍〨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤸唣䉓㠨)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉たㄵ♁䕒彖㄰〰䴦彉〰唀䉓噜䑉ㅟ㌵☲䥐彄㔰䄱䴦彉〰
+================================================================================
+FriendlyName : 湉整⡬⥒䴠湡条浥湥⁴湅楧敮䤠瑮牥慦散⌠1
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A68&SUBSYS_7E061462&REV_11\3&11583659&0&B0
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥㈲‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〶⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䕈䥃)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㙁☸啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷㠶匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷㠶䌦彃㜰〸〰倀䥃噜久㡟㠰☶䕄彖䄷㠶䌦彃㜰〸
+================================================================================
+FriendlyName : 单⁂潃灭獯瑩⁥敄楶散�
+Class        : 单B
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_0098\6&5F51C88&0&1
+LocationInfo : 潐瑲⍟〰㄰䠮扵⍟〰㈰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓ㄨ)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午ㅓ)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰唀䉓噜䑉ㅟ㌵☲䥐彄〰㠹
+================================================================================
+FriendlyName : 湉整⡬⥒䰠䍐䌠湯牴汯敬⽲卥䥐䌠湯牴汯敬⁲‭䄷㐰�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A04&SUBSYS_7E061462&REV_11\3&11583659&0&F8
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ㄳ‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨう⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉偌䉃)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟ぁ☴啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷㐰匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷㐰䌦彃㘰㄰〰倀䥃噜久㡟㠰☶䕄彖䄷㐰䌦彃㘰㄰
+================================================================================
+FriendlyName : 灓慥敫獲⠠敒污整⡫⥒䄠摵潩)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{2E33EFD3-3F90-4B59-90A7-C9D064954921}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 楈桧䐠晥湩瑩潩⁮畁楤⁯潃瑮潲汬牥�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_10DE&DEV_22E9&SUBSYS_000010DE&REV_A1\4&18DC2E69&0&0108
+LocationInfo : 䍐⁉畢⁳ⰱ搠癥捩⁥ⰰ映湵瑣潩⁮1
+LocationPath : 䍐剉住⡔⤰倣䥃〨〱⤰倣䥃〨〰⤱䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䕐ㅇ〈䍐⡉〰㄰)�
+HardwareIds  : 䍐屉䕖彎〱䕄䐦噅㉟䔲☹啓卂卙た〰㄰䐰♅䕒彖ㅁ倀䥃噜久ㅟ䐰♅䕄彖㈲㥅匦䉕奓当〰〰〱䕄倀䥃噜久ㅟ䐰♅䕄彖㈲㥅䌦彃㐰㌰〰倀䥃噜久ㅟ䐰♅䕄彖㈲㥅䌦彃㐰㌰
+================================================================================
+FriendlyName : 潖畬敭䴠湡条牥�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\VOLMGR\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏噜䱏䝍R�
+================================================================================
+FriendlyName : 潎桴湩⁧桐湯⁥㈨ 癁捲⁰牔湡灳牯t
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000110C-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⵣ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ挰〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 䅗⁎楍楮潰瑲⠠偐佐⥅�
+Class        : 敎t
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\MS_PPPOEMINIPORT
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 獭灟灰敯業楮潰瑲
+================================================================================
+FriendlyName : 湉整⡬⥒倠䥃⁥䍒〠〱䜠‵‭㝁䐰�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_A70D&SUBSYS_7E061462&REV_01\3&11583659&0&08
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ⰱ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃〨〱⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䕐ㅇ)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅䅟〷♄啓卂卙㝟ぅㄶ㘴☲䕒彖㄰倀䥃噜久㡟㠰☶䕄彖㝁䐰匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖㝁䐰䌦彃㘰㐰〰倀䥃噜久㡟㠰☶䕄彖㝁䐰䌦彃㘰㐰
+================================================================================
+FriendlyName : 潎桴湩⁧桐湯⁥㈨ 慈摮⵳牆敥䠠⁆畁楤o
+Class        : 䕍䥄A
+Enumerator   : 呂䡈䕆啎M
+InstanceId   : BTHHFENUM\BTHHFPAUDIO\8&1846D0A7&0&97
+LocationInfo : 䙈⁐畂⁳0
+LocationPath : 
+HardwareIds  : 呂䡈䕆啎屍瑂䡨偆畁楤o�
+================================================================================
+FriendlyName : 潓湵捤牯⁥楌敦倠″癁捲⁰牔湡灳牯t
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000110C-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&6C95BA&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⵣ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 楍牣獯景⁴慂楳⁣楄灳慬⁹牄癩牥�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\BASICDISPLAY\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏䉜獡捩楄灳慬y�
+================================================================================
+FriendlyName : 祓瑳浥䘠物睭牡e
+Class        : 楆浲慷敲�
+Enumerator   : 䕕䥆�
+InstanceId   : UEFI\RES_{363B96BF-F207-5A50-87EE-6C1D5E94CB8B}\0
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䕕䥆剜卅筟㘳戳㘹晢昭〲ⴷ愵〵㠭攷ⵥ挶搱攵㐹扣戸♽䕒彖1䕕䥆剜卅筟㘳戳㘹晢昭〲ⴷ愵〵㠭攷ⵥ挶搱攵㐹扣戸}�
+================================================================================
+FriendlyName : 敒污整⁫畁楤⁯晅敦瑣⁳潃灭湯湥t
+Class        : 畁楤偯潲散獳湩佧橢捥t
+Enumerator   : 坓D
+InstanceId   : SWD\DRIVERENUM\{C3A63EDD-2D27-4B66-B155-5E94B43D926A}#REALTEKAPO&5&2B870DCA&0
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 坓屃䕖彎〱䍅䄦䑉た〰1�
+================================================================================
+FriendlyName : 䍁䥐匠敬灥䈠瑵潴n
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C0E\2&DABA3FF&0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䱓䉐)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃE䍁䥐停偎䌰䔰⨀乐ぐぃE�
+================================================================================
+FriendlyName : 求敵潴瑯h
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\RADIO\BLUETOOTH_D4D8533A1825
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 潓湵捤牯⁥楌敦倠3
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\DEV_E8EECC036758\7&6C95BA&1&BLUETOOTHDEVICE_E8EECC036758
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍敄彶㡅䕅䍃㌰㜶㠵
+================================================================================
+FriendlyName : 楍牣獯景⁴祈数癲獩牯匠牥楶散�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\HVSERVICE\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏桜獶牥楶散
+================================================================================
+FriendlyName : 敇敮楲⁣瑁牴扩瑵⁥牐景汩e
+Class        : 求敵潴瑯h
+Enumerator   : 呂䱈䑅噅䍉E
+InstanceId   : BTHLEDEVICE\{00001801-0000-1000-8000-00805F9B34FB}_80E12662D94C\8&1099C44E&0&0001
+LocationInfo : 求敵潴瑯⁨䕌䐠癥捩e
+LocationPath : 
+HardwareIds  : 呂䱈䑅癥捩履ほ〰㄰〸ⴱ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 敇敮楲⁣潍楮潴⁲嘨㉇䄷㍑⥁�
+Class        : 潍楮潴r
+Enumerator   : 䥄偓䅌Y
+InstanceId   : DISPLAY\AUS27EF\5&25DB5B5B&0&UID4353
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 位䥎佔屒啁㉓䔷F�
+================================================================================
+FriendlyName : 䅓卍乕⁇丨䥖䥄⁁楈桧䐠晥湩瑩潩⁮畁楤⥯�
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{FB219E16-A5AA-4917-839D-9B54C7C54180}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_046D&PID_C22A&MI_00\8&16E7465A&0&0000
+LocationInfo : 〰〰〮㄰⸴〰〰〮㔰〮㌰〮㌰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤳唣䉓䥍〨)䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤳唣䉓㌨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓〈单⡂⤳唣䉓䥍〨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓〈单⡂⤳唣䉓㌨)�
+HardwareIds  : 单层䥖彄㐰䐶倦䑉䍟㈲♁䕒彖㄰〰䴦彉〰唀䉓噜䑉た㘴♄䥐彄㉃䄲䴦彉〰
+================================================================================
+FriendlyName : 䥈⁄敋批慯摲䐠癥捩e
+Class        : 敋批慯摲�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_046D&PID_C22A&MI_00\9&931AEE8&0&0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㐰䐶倦䑉䍟㈲♁䕒彖㄰〰䴦彉〰䠀䑉噜䑉た㘴♄䥐彄㉃䄲䴦彉〰䠀䑉噜䑉た㘴♄偕〺〰弱㩕〰㘰䠀䑉䑟噅䍉彅奓呓䵅䭟奅佂剁D䥈彄䕄䥖䕃啟㩐〰㄰啟〺〰6䥈彄䕄䥖䕃
+================================================================================
+FriendlyName : 䍁䥐吠敨浲污娠湯e
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\THERMALZONE\TZ00
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉婔〰)�
+HardwareIds  : 䍁䥐呜敨浲污潚敮⨀桔牥慭婬湯e�
+================================================================================
+FriendlyName : 䵕畂⁳湅浵牥瑡牯�
+Class        : 祓瑳浥�
+Enumerator   : 䵕B
+InstanceId   : UMB\UMB\1&841921D&0&TERMINPUT_BUS
+LocationInfo : 
+LocationPath : 䵕剂住⡔⤰唣䉍吨剅䥍偎呕䉟单)�
+HardwareIds  : 䵕层䵕啂S�
+================================================================================
+FriendlyName : 敐獲湯污䄠敲⁡敎睴牯⁫䅎⁐敓癲捩e
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001116-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰ㄱⴶ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ㘱〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 楍牣獯景⁴楗摮睯⁳慍慮敧敭瑮䤠瑮牥慦散映牯䄠偃I
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C14\DSARDEV
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䙗䕄)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たㅃ4䍁䥐停偎䌰㐱⨀乐ぐㅃ4�
+================================================================================
+FriendlyName : 楍牣獯景⁴楗䘭⁩楄敲瑣嘠物畴污䄠慤瑰牥�
+Class        : 敎t
+Enumerator   : 㕻㙄㐲㥆ⴴ㠸〵㐭䌰ⴳ㍁䅆䄭䘴㉄㠰䈰䙁紳�
+InstanceId   : {5D624F94-8850-40C3-A3FA-A4FD2080BAF3}\VWIFIMP_WFD\4&1C066CA&0&11
+LocationInfo : 坖䙩⁩畂⁳0
+LocationPath : 
+HardwareIds  : 㕻㙤㐲㥦ⴴ㠸〵㐭挰ⴳ㍡慦愭昴㉤㠰戰晡紳癜楷楦灭睟摦
+================================================================================
+FriendlyName : 楍牣獯景⁴楗䘭⁩楄敲瑣嘠物畴污䄠慤瑰牥⌠2
+Class        : 敎t
+Enumerator   : 㕻㙄㐲㥆ⴴ㠸〵㐭䌰ⴳ㍁䅆䄭䘴㉄㠰䈰䙁紳�
+InstanceId   : {5D624F94-8850-40C3-A3FA-A4FD2080BAF3}\VWIFIMP_WFD\4&1C066CA&0&12
+LocationInfo : 坖䙩⁩畂⁳0
+LocationPath : 
+HardwareIds  : 㕻㙤㐲㥦ⴴ㠸〵㐭挰ⴳ㍡慦愭昴㉤㠰戰晡紳癜楷楦灭睟摦
+================================================================================
+FriendlyName : 瑓湡慤摲丠䵖䔠灸敲獳䌠湯牴汯敬r
+Class        : 䍓䥓摁灡整r
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_144D&DEV_A80A&SUBSYS_A801144D&REV_00\4&31B1139F&0&0030
+LocationInfo : 䍐⁉畢⁳ⰲ搠癥捩⁥ⰰ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃〨〶⤰倣䥃〨〰⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䕐ぇ〈䍁䥐倨䝅⥐
+HardwareIds  : 䍐屉䕖彎㐱䐴䐦噅䅟〸♁啓卂卙䅟〸ㄱ㐴♄䕒彖〰倀䥃噜久ㅟ㐴♄䕄彖㡁䄰匦䉕奓当㡁㄰㐱䐴倀䥃噜久ㅟ㐴♄䕄彖㡁䄰䌦彃㄰㠰㈰倀䥃噜久ㅟ㐴♄䕄彖㡁䄰䌦彃㄰㠰
+================================================================================
+FriendlyName : 效摡敳⁴楍牣灯潨敮⠠慒敺⁲慎楲唠瑬浩瑡⁥‭桃瑡)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.1.00000000}.{19E8835A-0509-444C-BB51-B49D7FAA4869}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 楍牣獯景⁴剒十删潯⁴湅浵牥瑡牯�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\{5E259276-BC7E-40E3-B93B-8F89B5F3ABC0}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 湉整⡬⥒倠慬晴牯⁭潍楮潴楲杮吠捥湨汯杯⁹牄癩牥�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_A77D&SUBSYS_00000000&REV_01\3&11583659&0&50
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥〱‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃〨ぁ⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰倣䥃〨ぁ⤰
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅䅟㜷♄啓卂卙た〰〰〰☰䕒彖㄰倀䥃噜久㡟㠰☶䕄彖㝁䐷匦䉕奓当〰〰〰〰倀䥃噜久㡟㠰☶䕄彖㝁䐷刦噅た1䍐屉䕖彎〸㘸䐦噅䅟㜷D䍐屉䕖彎〸㘸䐦噅䅟㜷♄䍃ㅟ㠱〰0䍐屉䕖彎〸㘸䐦噅䅟㜷♄䍃ㅟ㠱0�
+================================================================================
+FriendlyName : 瑓湡慤摲匠牥慩⁬癯牥䈠畬瑥潯桴氠湩⁫䌨䵏⤳�
+Class        : 潐瑲s
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&1AEFA463&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⴱ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 楗䘭i
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\RADIO\{892D8571-F2B3-4FC0-B793-AC7790BD3054}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 敇敮楲⁣捁散獳倠潲楦敬�
+Class        : 求敵潴瑯h
+Enumerator   : 呂䱈䑅噅䍉E
+InstanceId   : BTHLEDEVICE\{00001800-0000-1000-8000-00805F9B34FB}_80E12662D94C\8&1099C44E&0&0005
+LocationInfo : 求敵潴瑯⁨䕌䐠癥捩e
+LocationPath : 
+HardwareIds  : 呂䱈䑅癥捩履ほ〰㄰〸ⴰ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 敇敮楲⁣单⁂畈b
+Class        : 单B
+Enumerator   : 单B
+InstanceId   : USB\VID_05E3&PID_0607\6&5F51C88&0&3
+LocationInfo : 潐瑲⍟〰㌰䠮扵⍟〰㈰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓)�
+HardwareIds  : 单层䥖彄㔰㍅倦䑉た〶☷䕒彖㠰㄰唀䉓噜䑉た䔵☳䥐彄㘰㜰
+================================================================================
+FriendlyName : 䅗⁎楍楮潰瑲⠠偐偔)
+Class        : 敎t
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\MS_PPTPMINIPORT
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 獭灟瑰浰湩灩牯t�
+================================================================================
+FriendlyName : 䥈ⵄ潣灭楬湡⁴敶摮牯搭晥湩摥搠癥捩e
+Class        : 䥈䍄慬獳�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_051A&MI_05&COL03\7&2180D659&0&0002
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉たㄵ♁䕒彖㄰〰䴦彉㔰䌦汯㌰䠀䑉噜䑉ㅟ㌵☲䥐彄㔰䄱䴦彉㔰䌦汯㌰䠀䑉噜䑉ㅟ㌵☲偕䘺う弰㩕〰㄰䠀䑉䑟噅䍉彅偕䘺う弰㩕〰㄰䠀䑉䑟噅䍉彅偕㩒䙆〰䘭䙆F䥈彄䕄䥖䕃
+================================================================================
+FriendlyName : 求敵潴瑯⁨敐楲桰牥污䐠癥捩e
+Class        : 
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001800-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〸ⴰ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰㠱〰〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 䥈⁄敋批慯摲䐠癥捩e
+Class        : 敋批慯摲�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_0098&MI_01&COL01\8&18DC1EEA&0&0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉㄰䌦汯㄰䠀䑉噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉㄰䌦汯㄰䠀䑉噜䑉ㅟ㌵☲偕〺〰弱㩕〰㘰䠀䑉䑟噅䍉彅奓呓䵅䭟奅佂剁D䥈彄䕄䥖䕃啟㩐〰㄰啟〺〰6䥈彄䕄䥖䕃
+================================================================================
+FriendlyName : 慒敺⁲敄瑡䅨摤牥䔠獳湥楴污�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_0098&MI_02\7&24F50895&3&0002
+LocationInfo : 〰〰〮㄰⸴〰〰〮㔰〮㄰〮〰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓ㄨ〈单䵂⡉⤲䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㔰〈䍁䥐䠨卓⤱唣䉓䥍㈨)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉㈰唀䉓噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉㈰
+================================================================================
+FriendlyName : 䥈ⵄ潣灭楬湡⁴潭獵e
+Class        : 潍獵e
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_0098&MI_00\8&11892A5&0&0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉〰䠀䑉噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉〰䠀䑉噜䑉ㅟ㌵☲偕〺〰弱㩕〰㈰䠀䑉䑟噅䍉彅奓呓䵅䵟問䕓䠀䑉䑟噅䍉彅偕〺〰弱㩕〰㈰䠀䑉䑟噅䍉E�
+================================================================================
+FriendlyName : 楍牣獯景⁴祈数⵲⁖楖瑲慵楬慺楴湯䤠普慲瑳畲瑣牵⁥牄癩牥�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\VID\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏噜䑉
+================================================================================
+FriendlyName : 效摡桰湯獥⠠捏汵獵嘠物畴污䄠摵潩䐠癥捩⥥�
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{7C667485-8BDB-4C22-B8EA-B8D62EF69101}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 楈桧瀠敲楣楳湯攠敶瑮琠浩牥�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0103\0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐䰨䍐⥂䄣偃⡉偈呅)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅た〱3䍁䥐停偎㄰㌰⨀乐ぐ〱3�
+================================================================================
+FriendlyName : 潓湵捤牯⁥楌敦倠3
+Class        : 䕍䥄A
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000110B-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&6C95BA&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⵢ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 潍桴牥潢牡⁤敲潳牵散s
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C02\ISCLK
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍉䭌)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぃ2䍁䥐停偎䌰㈰⨀乐ぐぃ2�
+================================================================================
+FriendlyName : 湉整⡬⥒圠物汥獥⁳求敵潴瑯⡨⥒�
+Class        : 求敵潴瑯h
+Enumerator   : 单B
+InstanceId   : USB\VID_8087&PID_0033\5&1F1B5891&0&14
+LocationInfo : 潐瑲⍟〰㐱䠮扵⍟〰㄰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂㐱)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨ㅓ⤴
+HardwareIds  : 单层䥖彄〸㜸倦䑉た㌰☳䕒彖〰〰唀䉓噜䑉㡟㠰☷䥐彄〰㌳
+================================================================================
+FriendlyName : 求敵潴瑯⁨敄楶散⠠䙒佃䵍倠潲潴潣⁬䑔⥉�
+Class        : 求敵潴瑯h
+Enumerator   : 呂H
+InstanceId   : BTH\MS_RFCOMM\6&C2EE274&0&0
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂屈卍剟䍆䵏M�
+================================================================================
+FriendlyName : 效摡敳⁴慅灲潨敮⠠慒敺⁲慎楲唠瑬浩瑡⁥‭桃瑡)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{F01593D3-1A5B-43C1-A626-A57C52BD9643}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 䅗⁎楍楮潰瑲⠠䭉癅⤲�
+Class        : 敎t
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\MS_AGILEVPNMINIPORT
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 獭慟楧敬灶浮湩灩牯t�
+================================================================================
+FriendlyName : 潃灭獯瑩⁥畂⁳湅浵牥瑡牯�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\COMPOSITEBUS\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏䍜浯潰楳整畂s�
+================================================================================
+FriendlyName : 楍牣獯景⁴楖瑲慵⁬牄癩⁥湅浵牥瑡牯�
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\VDRVROOT\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 佒呏癜牤牶潯t�
+================================================================================
+FriendlyName : 单⁂潃灭獯瑩⁥敄楶散�
+Class        : 单B
+Enumerator   : 单B
+InstanceId   : USB\VID_1532&PID_051A\5&1F1B5891&0&8
+LocationInfo : 潐瑲⍟〰㠰䠮扵⍟〰㄰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤸䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㠰)�
+HardwareIds  : 单层䥖彄㔱㈳倦䑉たㄵ♁䕒彖㄰〰唀䉓噜䑉ㅟ㌵☲䥐彄㔰䄱
+================================================================================
+FriendlyName : 湉整⡬⥒匠䉍獵ⴠ㜠㉁3
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A23&SUBSYS_7E061462&REV_11\3&11583659&0&FC
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ㄳ‬畦据楴湯㐠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨう⤴䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䉓单)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㉁☳啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷㌲匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷㌲䌦彃䌰㔰〰倀䥃噜久㡟㠰☶䕄彖䄷㌲䌦彃䌰㔰
+================================================================================
+FriendlyName : 楍牣灯潨敮⠠瑓慥⁭瑓敲浡湩⁧楍牣灯潨敮)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.1.00000000}.{2B316FED-E298-457B-9071-9F5B57022B22}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 楍牣獯景⁴瑓牯条⁥灓捡獥䌠湯牴汯敬r
+Class        : 䍓䥓摁灡整r
+Enumerator   : 佒呏�
+InstanceId   : ROOT\SPACEPORT\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 潒瑯卜慰散潰瑲
+================================================================================
+FriendlyName : 慓獭湵⁧㡑䌰⁁㔵�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\WIFIDIRECT\1E:AF:4A:14:01:14
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 楗楆楄敲瑣卜䵁啓䝎䕟䕌呃佒䥎千〦圀䙩䑩物捥屴䅓卍乕彇䱅䍅剔乏䍉♓☰䅑㡑0�
+================================================================================
+FriendlyName : 单⁂潃灭獯瑩⁥敄楶散�
+Class        : 单B
+Enumerator   : 单B
+InstanceId   : USB\VID_046D&PID_C22A\7&12E6CF9E&2&3
+LocationInfo : 潐瑲⍟〰㌰䠮扵⍟〰㐰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤳䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㔰〈䍁䥐䠨卓⤳唣䉓㌨)�
+HardwareIds  : 单层䥖彄㐰䐶倦䑉䍟㈲♁䕒彖㄰〰唀䉓噜䑉た㘴♄䥐彄㉃䄲
+================================================================================
+FriendlyName : 瑓湡慤摲匠呁⁁䡁䥃䌠湯牴汯敬r
+Class        : 䑈C
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A62&SUBSYS_7E061462&REV_11\3&11583659&0&B8
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥㌲‬畦据楴湯〠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〷⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䅓ご)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㙁☲啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷㈶匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷㈶䌦彃㄰㘰㄰倀䥃噜久㡟㠰☶䕄彖䄷㈶䌦彃㄰㘰
+================================================================================
+FriendlyName : 敓癲捩⁥敔瑳䰠潯扰捡⁫A
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MIDISRV\MIDIU_DIAG_LOOPBACK_A
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥍䥄剓屖楍楤湅灤楯瑮s�
+================================================================================
+FriendlyName : 敓癲捩⁥敔瑳䰠潯扰捡⁫B
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MIDISRV\MIDIU_DIAG_LOOPBACK_B
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥍䥄剓屖楍楤湅灤楯瑮s�
+================================================================================
+FriendlyName : 䵓⽓䵍S
+Class        : 
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{00001132-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰㌱ⴲ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ㈳〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_1462&PID_7E06\7E0622120204
+LocationInfo : 潐瑲⍟〰㈰䠮扵⍟〰㄰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤲䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㈰)�
+HardwareIds  : 单层䥖彄㐱㈶倦䑉㝟ぅ☶䕒彖〰㄰唀䉓噜䑉ㅟ㘴☲䥐彄䔷㘰
+================================================================================
+FriendlyName : 楍牣獯景⁴敋湲汥䐠扥杵丠瑥潷歲䄠慤瑰牥�
+Class        : 敎t
+Enumerator   : 佒呏�
+InstanceId   : ROOT\KDNIC\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 潲瑯歜湤捩
+================================================================================
+FriendlyName : 敇敮楲⁣潶畬敭猠慨潤⁷潣祰�
+Class        : 潖畬敭湓灡桳瑯�
+Enumerator   : 呓剏䝁E
+InstanceId   : STORAGE\VOLUMESNAPSHOT\HARDDISKVOLUMESNAPSHOT1
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呓剏䝁居潖畬敭湓灡桳瑯
+================================================================================
+FriendlyName : 敇敮楲⁣潶畬敭猠慨潤⁷潣祰�
+Class        : 潖畬敭湓灡桳瑯�
+Enumerator   : 呓剏䝁E
+InstanceId   : STORAGE\VOLUMESNAPSHOT\HARDDISKVOLUMESNAPSHOT2
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呓剏䝁居潖畬敭湓灡桳瑯
+================================================================================
+FriendlyName : 潖畬敭�
+Class        : 潖畬敭�
+Enumerator   : 呓剏䝁E
+InstanceId   : STORAGE\VOLUME\{0D5851AA-328C-11EE-8BCF-806E6F6E6963}#000000E8B2600000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呓剏䝁居潖畬敭
+================================================================================
+FriendlyName : 楗敲敬獳䌠湯牴汯敬r
+Class        : 求敵潴瑯h
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\DEV_48188D425EE3\7&6C95BA&1&BLUETOOTHDEVICE_48188D425EE3
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍敄彶㠴㠱䐸㈴䔵㍅
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐〰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\1
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㄰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\2
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㈰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\3
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㌰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\4
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㐰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\5
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㔰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\6
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㘰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\7
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㜰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\8
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㠰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\9
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㤰)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\A
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐〱)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\B
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐ㄱ)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\C
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㈱)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\D
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㌱)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\E
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㐱)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : ㌱桴䜠湥䤠瑮汥刨 潃敲吨⥍椠ⴵ㌱〶䬰�
+Class        : 牐捯獥潳r
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\GENUINEINTEL_-_INTEL64_FAMILY_6_MODEL_183_-_13TH_GEN_INTEL(R)_CORE(TM)_I5-13600K\F
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉剐㔱)�
+HardwareIds  : 䍁䥐噜久䅟偃♉䕄彖〰㜰䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役弶潍敤彬㠱3䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䵟摯汥ㅟ㌸䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶䙟浡汩役6䜪湥極敮湉整彬弭湉整㙬弴慆業祬㙟䄀偃屉敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶⨀敇畮湩䥥瑮汥ⵟ䥟瑮汥㐶
+================================================================================
+FriendlyName : 湉整⡬⥒䔠桴牥敮⁴潃瑮潲汬牥⠠⤳䤠㈲ⴵ⁖㈣�
+Class        : 敎t
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_15F3&SUBSYS_7E061462&REV_03\047C16FFFF81F37700
+LocationInfo : 䍐⁉畢⁳ⰴ搠癥捩⁥ⰰ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨぃ⤲倣䥃〨〰⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉偒㌰〈䍁䥐倨単⥘
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅ㅟ䘵☳啓卂卙㝟ぅㄶ㘴☲䕒彖㌰倀䥃噜久㡟㠰☶䕄彖㔱㍆匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖㔱㍆䌦彃㈰〰〰倀䥃噜久㡟㠰☶䕄彖㔱㍆䌦彃㈰〰
+================================================================================
+FriendlyName : 䵕畂⁳湅浵牥瑡牯�
+Class        : 祓瑳浥�
+Enumerator   : 䵕B
+InstanceId   : UMB\UMB\1&841921D&0&TS_USB_HUB_ENUMERATOR
+LocationInfo : 
+LocationPath : 䵕剂住⡔⤰唣䉍吨⁓单⁂啈⁂湅浵牥瑡牯)�
+HardwareIds  : 䵕层䵕啂S�
+================================================================================
+FriendlyName : 单⁂潒瑯䠠扵⠠单⁂⸳⤰�
+Class        : 单B
+Enumerator   : 单B
+InstanceId   : USB\ROOT_HUB30\4&327FF19E&0&0
+LocationInfo : 
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕)�
+HardwareIds  : 单层佒呏䡟䉕〳嘦䑉〸㘸倦䑉䄷〶刦噅〰ㄱ唀䉓剜住彔啈㍂☰䥖㡄㠰☶䥐㝄㙁0单层佒呏䡟䉕〳
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_046D&PID_C22A&MI_01\8&16E7465A&0&0001
+LocationInfo : 〰〰〮㄰⸴〰〰〮㔰〮㌰〮㌰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤳唣䉓䥍ㄨ)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓〈单⡂⤳唣䉓䥍ㄨ)�
+HardwareIds  : 单层䥖彄㐰䐶倦䑉䍟㈲♁䕒彖㄰〰䴦彉㄰唀䉓噜䑉た㘴♄䥐彄㉃䄲䴦彉㄰
+================================================================================
+FriendlyName : 潓湵捤牯⁥楌敦倠″慈摮⵳牆敥䄠G
+Class        : 祓瑳浥�
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000111E-0000-1000-8000-00805F9B34FB}_LOCALMFG&0002\7&6C95BA&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰ㄱⵥ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_1B1C&PID_0C0B\2BB0011644809AAF23F32F61051C00F5
+LocationInfo : 潐瑲⍟〰㈰䠮扵⍟〰㌰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂㌱〈单⡂⤲䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䡘䥃〈䍁䥐刨啈⥂䄣偃⡉午㌱〈䍁䥐䠨卓⤲
+HardwareIds  : 单层䥖彄䈱䌱倦䑉たぃ♂䕒彖〰㨰唀䉓噜䑉ㅟㅂ♃䥐彄䌰䈰
+================================================================================
+FriendlyName : 单⁂湉異⁴敄楶散�
+Class        : 䥈䍄慬獳�
+Enumerator   : 单B
+InstanceId   : USB\VID_046D&PID_C22B&MI_00\8&1449E16A&0&0000
+LocationInfo : 〰〰〮㄰⸴〰〰〮㔰〮㌰〮㄰〮〰〮〰〮〰�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤱唣䉓䥍〨)䍐剉住⡔⤰倣䥃ㄨ〴⤰唣䉓佒呏〨〈单⡂⤵唣䉓㌨〈单⡂⤱唣䉓ㄨ)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓〈单⡂⤱唣䉓䥍〨)䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐堨䍈⥉䄣偃⡉䡒䉕〈䍁䥐䠨こ⤵䄣偃⡉午㍓〈单⡂⤱唣䉓ㄨ)�
+HardwareIds  : 单层䥖彄㐰䐶倦䑉䍟㈲♂䕒彖㄰㄰䴦彉〰唀䉓噜䑉た㘴♄䥐彄㉃䈲䴦彉〰
+================================================================================
+FriendlyName : 潎桴湩⁧桐湯⁥㈨ ㉁偄匠䭎�
+Class        : 䕍䥄A
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0000110A-0000-1000-8000-00805F9B34FB}_VID&0001001D_PID&0000\7&6C95BA&1&2CBEEB4BA299_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ〰㄰〱ⵡ〰〰ㄭ〰ⴰ〸〰〭㠰㔰㥦㍢昴絢噟䑉〦〰〱㄰彤䥐♄〰〰䈀䡔久䵕筜〰〰ㄱ愰〭〰ⴰ〱〰㠭〰ⴰ〰〸昵戹㐳扦彽佌䅃䵌䝆〦〰2�
+================================================================================
+FriendlyName : 湉整⡬⥒圠瑡档潤⁧楔敭⁲牄癩牥⠠湉整⡬⥒圠呄)
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\INTC109C\4&7FD5B82&0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰〈䍁䥐䰨䍐⥂䄣偃⡉坃呄)�
+HardwareIds  : 䍁䥐噜久䥟呎♃䕄彖〱䌹䄀偃屉义䍔〱䌹⨀义䍔〱䌹
+================================================================================
+FriendlyName : 湉整⡬⥒䐠湹浡捩䄠灰楬慣楴湯䰠慯敤⁲潈瑳䤠瑮牥慦散�
+Class        : 潓瑦慷敲潃灭湯湥t
+Enumerator   : 坓D
+InstanceId   : SWD\DRIVERENUM\OEM_DAL_COMPONENT&4&4D32A86&0
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 坓屃䌳㠴㈵㙄䐭㜴ⵂ䘴㘴䈭㔰ⵅ㕂䑅ㅃ䅁㐴䔰
+================================================================================
+FriendlyName : 楈桧䐠晥湩瑩潩⁮畁楤⁯潃瑮潲汬牥�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A50&SUBSYS_9E061462&REV_11\3&11583659&0&FB
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥ㄳ‬畦据楴湯㌠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨう⤳䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉䑈十)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㕁☰啓卂卙㥟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷〵匦䉕奓当䔹㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷〵䌦彃㐰㌰〰倀䥃噜久㡟㠰☶䕄彖䄷〵䌦彃㐰㌰
+================================================================================
+FriendlyName : 瑓湡慤摲丠䵖䔠灸敲獳䌠湯牴汯敬r
+Class        : 䍓䥓摁灡整r
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_144D&DEV_A80A&SUBSYS_A801144D&REV_00\4&1923FAA2&0&00E8
+LocationInfo : 䍐⁉畢⁳ⰵ搠癥捩⁥ⰰ映湵瑣潩⁮0
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨい⤰倣䥃〨〰⤰䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉偒㤰〈䍁䥐倨単⥘
+HardwareIds  : 䍐屉䕖彎㐱䐴䐦噅䅟〸♁啓卂卙䅟〸ㄱ㐴♄䕒彖〰倀䥃噜久ㅟ㐴♄䕄彖㡁䄰匦䉕奓当㡁㄰㐱䐴倀䥃噜久ㅟ㐴♄䕄彖㡁䄰䌦彃㄰㠰㈰倀䥃噜久ㅟ㐴♄䕄彖㡁䄰䌦彃㄰㠰
+================================================================================
+FriendlyName : 䥈ⵄ潣灭楬湡⁴潣獮浵牥挠湯牴汯搠癥捩e
+Class        : 䥈䍄慬獳�
+Enumerator   : 䥈D
+InstanceId   : HID\VID_1532&PID_0098&MI_01&COL02\8&18DC1EEA&0&0001
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥈屄䥖彄㔱㈳倦䑉た㤰☸䕒彖㈰〰䴦彉㄰䌦汯㈰䠀䑉噜䑉ㅟ㌵☲䥐彄〰㠹䴦彉㄰䌦汯㈰䠀䑉噜䑉ㅟ㌵☲偕〺〰彃㩕〰㄰䠀䑉䑟噅䍉彅奓呓䵅䍟乏啓䕍R䥈彄䕄䥖䕃啟㩐〰䌰啟〺〰1䥈彄䕄䥖䕃
+================================================================================
+FriendlyName : 湁䑹獥⁫牐湩整r
+Class        : 牐湩兴敵敵�
+Enumerator   : 坓D
+InstanceId   : SWD\PRINTENUM\{FDF72C5B-CBBF-41AD-8785-3392B98ECA3A}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 剐义䕔啎屍㝻〹っ㄰ⴰ搲散㐭昴ⵡ〸搵㌭挰愵昸㤶㔴紱倀䥒呎久䵕䱜捯污牐湩兴敵敵笀㤷挰〰〱㈭捤ⵥ㐴慦㠭㔰ⵤ〳㕣㡡㙦㐹ㄵ}�
+================================================================================
+FriendlyName : 䵕畂⁳潒瑯䈠獵䔠畮敭慲潴r
+Class        : 祓瑳浥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\UMBUS\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 潲瑯畜扭獵
+================================================================================
+FriendlyName : 慓獭湵⁧卓⁄㠹‰剐⁏吲B
+Class        : 楄歳牄癩e
+Enumerator   : 䍓䥓�
+InstanceId   : SCSI\DISK&VEN_NVME&PROD_SAMSUNG_SSD_980\5&1733EC86&0&000000
+LocationInfo : 畂⁳畎扭牥〠‬慔杲瑥䤠⁤ⰰ䰠乕〠�
+LocationPath : 
+HardwareIds  : 䍓䥓䑜獩乫䵖彥彟彟彟彟彟彟彟彟彟彟慓獭湵彧卓彄㠹弰剐彏吲㕂㉂䝑䅘7䍓䥓䑜獩乫䵖彥彟彟彟彟彟彟彟彟彟彟慓獭湵彧卓彄㠹弰剐彏吲B䍓䥓䑜獩乫䵖彥彟卟浡畳杮卟䑓㥟〸䝟䅘7䍓䥓䑜獩乫䵖彥彟卟浡畳杮卟䑓㥟〸_䍓䥓䑜獩乫䵖彥彟_䍓䥓乜䵖彥彟卟浡畳杮卟䑓㥟〸䝟一䵖彥彟卟浡畳杮卟䑓㥟〸䝟䜀湥楄歳
+================================================================================
+FriendlyName : 求敵潴瑯⁨䕌䜠湥牥捩䄠瑴楲畢整匠牥楶散�
+Class        : 求敵潴瑯h
+Enumerator   : 呂䱈䑅噅䍉E
+InstanceId   : BTHLEDEVICE\{8FE5B3D5-2E7F-4A98-2A48-7ACC60FE0000}_80E12662D94C\8&1099C44E&0&000C
+LocationInfo : 求敵潴瑯⁨䕌䐠癥捩e
+LocationPath : 
+HardwareIds  : 呂䱈䑅癥捩履㡻敦戵搳ⴵ攲昷㐭㥡ⴸ愲㠴㜭捡㙣昰づ〰細䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 湉整⡬⥒䴠湡条浥湥⁴湅楧敮圠䥍倠潲楶敤r
+Class        : 潓瑦慷敲潃灭湯湥t
+Enumerator   : 坓D
+InstanceId   : SWD\DRIVERENUM\OEM_WMI_COMPONENT&4&4D32A86&0
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 坓屃㘰㔶䄷䐶䘭ぅⵆ䌴〹㠭䑄ⵁㅁ〵䌱㐷䕃䈴
+================================================================================
+FriendlyName : 呏ㅁ�
+Class        : 
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{66666666-6666-6666-6666-666666666666}_LOCALMFG&0002\7&6C95BA&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍㙻㘶㘶㘶ⴶ㘶㘶㘭㘶ⴶ㘶㘶㘭㘶㘶㘶㘶㘶紶䱟䍏䱁䙍♇〰㈰
+================================================================================
+FriendlyName : 楍牣獯景⁴慒楤⁯敄楶散䔠畮敭慲楴湯䈠獵�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\RADIO\{3DB5895D-CC28-44B3-AD3D-6F01A782B8D2}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 湉整⁬楔敬䐠癥捩e
+Class        : 
+Enumerator   : ㉻㉆㝂あⴱ㤵䄷㐭㐳ⵃ䐸㙄䐭㜲䑃㘴䙅㌷絃�
+InstanceId   : {2F2B7B01-597A-434C-8DD6-D27CD46EF73C}\INTELTILEDEVICE\6&C2EE274&0
+LocationInfo : 湉整⁬楔敬䐠癥捩e
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 湉整⡬⥒匠牥慩⁬佉䜠䥐⁏潈瑳䌠湯牴汯敬⁲‭义䍔〱㔸�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\INTC1085\2&DABA3FF&0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉假ぉ)�
+HardwareIds  : 䍁䥐噜久䥟呎♃䕄彖〱㔸䄀偃屉义䍔〱㔸⨀义䍔〱㔸
+================================================================================
+FriendlyName : 慓獭湵⁧卓⁄㠹‰剐⁏吱B
+Class        : 楄歳牄癩e
+Enumerator   : 䍓䥓�
+InstanceId   : SCSI\DISK&VEN_NVME&PROD_SAMSUNG_SSD_980\5&32D517D7&0&000000
+LocationInfo : 畂⁳畎扭牥〠‬慔杲瑥䤠⁤ⰰ䰠乕〠�
+LocationPath : 
+HardwareIds  : 䍓䥓䑜獩乫䵖彥彟彟彟彟彟彟彟彟彟彟慓獭湵彧卓彄㠹弰剐彏吱㕂㉂䝑䅘7䍓䥓䑜獩乫䵖彥彟彟彟彟彟彟彟彟彟彟慓獭湵彧卓彄㠹弰剐彏吱B䍓䥓䑜獩乫䵖彥彟卟浡畳杮卟䑓㥟〸䝟䅘7䍓䥓䑜獩乫䵖彥彟卟浡畳杮卟䑓㥟〸_䍓䥓䑜獩乫䵖彥彟_䍓䥓乜䵖彥彟卟浡畳杮卟䑓㥟〸䝟一䵖彥彟卟浡畳杮卟䑓㥟〸䝟䜀湥楄歳
+================================================================================
+FriendlyName : 楍牣獯景⁴敄楶散䄠獳捯慩楴湯删潯⁴湅浵牥瑡牯�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MSDAS\{CE958E9A-424F-4C88-86F4-11314821E75A}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 
+================================================================================
+FriendlyName : 䍁䥐砠㐶戭獡摥倠C
+Class        : 潃灭瑵牥�
+Enumerator   : 佒呏�
+InstanceId   : ROOT\ACPI_HAL\0000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 捡楰灡捩
+================================================================================
+FriendlyName : 楍牣獯景⁴楗摮睯⁳慍慮敧敭瑮䤠瑮牥慦散映牯䄠偃I
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C14\WMIC
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䵗䍉)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たㅃ4䍁䥐停偎䌰㐱⨀乐ぐㅃ4�
+================================================================================
+FriendlyName : 敓癲捩⁥敔瑳倠湩⁧䤨瑮牥慮⥬�
+Class        : 潓瑦慷敲敄楶散�
+Enumerator   : 坓D
+InstanceId   : SWD\MIDISRV\MIDIU_DIAG_PING
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䥍䥄剓屖楍楤湅灤楯瑮s�
+================================================================================
+FriendlyName : 效摡桰湯獥⠠慒敺⁲慎楲唠瑬浩瑡⁥‭慇敭)
+Class        : 畁楤䕯摮潰湩t
+Enumerator   : 坓D
+InstanceId   : SWD\MMDEVAPI\{0.0.0.00000000}.{7EF6CAC2-D7CC-4845-BCD4-F1EBDB3C17A0}
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 䵍䕄䅖䥐䅜摵潩湅灤楯瑮s�
+================================================================================
+FriendlyName : 䅗⁎楍楮潰瑲⠠敎睴牯⁫潍楮潴⥲�
+Class        : 敎t
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\MS_NDISWANBH
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 獭湟楤睳湡桢
+================================================================================
+FriendlyName : 䅗⁎楍楮潰瑲⠠偉)
+Class        : 敎t
+Enumerator   : 坓D
+InstanceId   : SWD\MSRRAS\MS_NDISWANIP
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 獭湟楤睳湡灩
+================================================================================
+FriendlyName : 楍牣獯景⁴楗摮睯⁳慍慮敧敭瑮䤠瑮牥慦散映牯䄠偃I
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0C14\TESTDEV
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䙗䕔)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たㅃ4䍁䥐停偎䌰㐱⨀乐ぐㅃ4�
+================================================================================
+FriendlyName : 䍐⁉硅牰獥⁳潒瑯䌠浯汰硥�
+Class        : 祓瑳浥�
+Enumerator   : 䍁䥐�
+InstanceId   : ACPI\PNP0A08\0
+LocationInfo : 
+LocationPath : 䍁䥐弨䉓⥟䄣偃⡉䍐〰)�
+HardwareIds  : 䍁䥐噜久偟偎䐦噅たぁ8䍁䥐停偎䄰㠰⨀乐ぐぁ8�
+================================================================================
+FriendlyName : 湉整⡬⥒倠䥃䔠灸敲獳删潯⁴潐瑲⌠″‭䄷䄳�
+Class        : 祓瑳浥�
+Enumerator   : 䍐I
+InstanceId   : PCI\VEN_8086&DEV_7A3A&SUBSYS_7E061462&REV_11\3&11583659&0&E2
+LocationInfo : 䍐⁉畢⁳ⰰ搠癥捩⁥㠲‬畦据楴湯㈠�
+LocationPath : 䍐剉住⡔⤰倣䥃ㄨぃ⤲䄀偃⡉卟彂〈䍁䥐倨ぃ⤰䄣偃⡉偒㌰)�
+HardwareIds  : 䍐屉䕖彎〸㘸䐦噅㝟㍁♁啓卂卙㝟ぅㄶ㘴☲䕒彖ㄱ倀䥃噜久㡟㠰☶䕄彖䄷䄳匦䉕奓当䔷㘰㐱㈶倀䥃噜久㡟㠰☶䕄彖䄷䄳䌦彃㘰㐰〰倀䥃噜久㡟㠰☶䕄彖䄷䄳䌦彃㘰㐰
+================================================================================
+FriendlyName : 灓ㅰ�
+Class        : 
+Enumerator   : 呂䕈啎M
+InstanceId   : BTHENUM\{0CF12D31-FAC3-4553-BD80-D6832E7B3939}_LOCALMFG&0002\7&6C95BA&1&E8EECC036758_C00000000
+LocationInfo : 
+LocationPath : 
+HardwareIds  : 呂䕈啎屍ほ晣㈱㍤ⴱ慦㍣㐭㔵ⴳ摢〸搭㠶㈳㝥㍢㌹紹䱟䍏䱁䙍♇〰㈰
