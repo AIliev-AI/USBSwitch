@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using System.Text.Json;
 
 // Tray app MVP scaffold for:
 // - enumerating monitors
@@ -20,7 +22,6 @@ using System.Windows.Forms;
 //
 // This is an MVP scaffold with the main structure and working monitor enumeration / manual switching.
 // USB learning is implemented as snapshot/diff logic using SetupAPI enumeration.
-// Auto-switch toggle is wired in the UI but device-change event handling is intentionally left conservative.
 
 internal static class Program
 {
@@ -94,11 +95,42 @@ internal sealed class TrayApplicationContext : ApplicationContext
     }
 }
 
+internal sealed class AppConfig
+{
+    public List<string> TrackedFamilies { get; set; } = new();
+    public uint PcInputValue { get; set; } = 15;
+    public uint LaptopInputValue { get; set; } = 17;
+    public bool AutoSwitchEnabled { get; set; } = false;
+    public List<string> SelectedMonitorIds { get; set; } = new();
+}
+
 internal sealed class MainForm : Form
 {
-    private readonly TabControl _tabs = new() { Dock = DockStyle.Fill };
+    private enum SwitchState
+    {
+        Unknown,
+        OnPc,
+        Away
+    }
 
-    private readonly ListView _monitorList = CreateListView();
+    private readonly TabControl _tabs = new() { Dock = DockStyle.Fill };
+    private readonly string _configDirectory = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+    "USBSwitch");
+
+	private readonly string _configPath;
+
+    private AppConfig _config = new();
+
+    private readonly ListView _monitorList = new()
+    {
+        Dock = DockStyle.Fill,
+        View = View.Details,
+        FullRowSelect = true,
+        GridLines = true,
+        MultiSelect = false,
+        CheckBoxes = true
+    };
     private readonly ListView _usbList = CreateListView();
     private readonly TextBox _logBox = new() { Dock = DockStyle.Fill, Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical };
     private readonly CheckBox _autoSwitchCheck = new() { Text = "Enable auto-monitor-switching based on USB changes", Dock = DockStyle.Top, Height = 30 };
@@ -108,12 +140,17 @@ internal sealed class MainForm : Form
     private readonly Button _toLaptopBtn = new() { Text = "Switch selected monitor to Laptop", AutoSize = true };
 
     private readonly Button _refreshUsbBtn = new() { Text = "Refresh USB devices", AutoSize = true };
+    private readonly Button _guidedWizardBtn = new() { Text = "Run guided USB wizard (10s)", AutoSize = true };
     private readonly Button _snapshotBeforeBtn = new() { Text = "1) Capture current USB snapshot", AutoSize = true };
     private readonly Button _snapshotAwayBtn = new() { Text = "2) Switch USB away, then capture", AutoSize = true };
     private readonly Button _snapshotBackBtn = new() { Text = "3) Switch USB back, then capture", AutoSize = true };
     private readonly Button _proposeTrackedBtn = new() { Text = "Propose tracked USB devices", AutoSize = true };
 
     private readonly Label _wizardSummary = new() { Dock = DockStyle.Fill, AutoSize = false, TextAlign = ContentAlignment.TopLeft };
+    private readonly System.Windows.Forms.Timer _wizardTimer = new() { Interval = 10_000 };
+    private readonly System.Windows.Forms.Timer _usbDebounceTimer = new() { Interval = 1500 };
+    private readonly System.Windows.Forms.Timer _cooldownTimer = new() { Interval = 8000 };
+	private readonly System.Windows.Forms.Timer _startupRefreshTimer = new() { Interval = 1500 };
 
     private List<MonitorInfo> _monitors = new();
     private List<DeviceInfo> _usbDevices = new();
@@ -122,17 +159,98 @@ internal sealed class MainForm : Form
     private List<DeviceInfo> _snapshotAway = new();
     private List<DeviceInfo> _snapshotBack = new();
 
-    public MainForm()
-    {
-        Text = "USB Monitor Switcher";
-        Width = 1100;
-        Height = 760;
-        StartPosition = FormStartPosition.CenterScreen;
+    private int _guidedWizardPhase = 0;
 
-        BuildUi();
-        WireEvents();
-        RefreshAll();
+    private HashSet<string> _trackedFamilies = new(StringComparer.OrdinalIgnoreCase);
+    private SwitchState _switchState = SwitchState.Unknown;
+    private bool _isInCooldown = false;
+    private bool _updatingMonitorChecks;
+
+public MainForm()
+{
+    Text = "USB Monitor Switcher";
+    Width = 1100;
+    Height = 760;
+    StartPosition = FormStartPosition.CenterScreen;
+	_configPath = Path.Combine(_configDirectory, "usb-monitor-switcher.json");
+	Directory.CreateDirectory(_configDirectory);
+	
+    LoadConfig();
+	_config.SelectedMonitorIds ??= new List<string>();
+    _trackedFamilies = (_config.TrackedFamilies ?? new List<string>())
+        .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+    BuildUi();
+    WireEvents();
+
+    _autoSwitchCheck.Checked = _config.AutoSwitchEnabled;
+
+    RefreshAll();
+
+    Log(_trackedFamilies.Count > 0
+        ? $"Loaded {_trackedFamilies.Count} tracked families from config."
+        : "No tracked families loaded from config.");
+
+    Log(_autoSwitchCheck.Checked
+        ? "Auto-switching restored as enabled from config."
+        : "Auto-switching restored as disabled from config.");
+
+
+Log(_autoSwitchCheck.Checked
+    ? "Auto-switching restored as enabled from config."
+    : "Auto-switching restored as disabled from config.");
+
+        if (_trackedFamilies.Count > 0)
+            Log($"Loaded {_trackedFamilies.Count} tracked families from config.");
     }
+
+    protected override void OnShown(EventArgs e)
+{
+    base.OnShown(e);
+    _startupRefreshTimer.Start();
+}
+	
+	private void StartupRefreshTimer_Tick(object? sender, EventArgs e)
+{
+    _startupRefreshTimer.Stop();
+    RefreshMonitors();
+    Log("Performed delayed startup monitor refresh.");
+}
+	
+	protected override void WndProc(ref Message m)
+    {
+        const int WM_DEVICECHANGE = 0x0219;
+        const int DBT_DEVICEARRIVAL = 0x8000;
+        const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
+        const int DBT_DEVNODES_CHANGED = 0x0007;
+
+        if (m.Msg == WM_DEVICECHANGE)
+        {
+            int eventType = m.WParam.ToInt32();
+            if (eventType == DBT_DEVICEARRIVAL ||
+                eventType == DBT_DEVICEREMOVECOMPLETE ||
+                eventType == DBT_DEVNODES_CHANGED)
+            {
+                OnUsbTopologyChanged();
+            }
+        }
+
+        base.WndProc(ref m);
+    }
+
+    protected override void Dispose(bool disposing)
+{
+    if (disposing)
+    {
+        ReleaseMonitorHandles();
+        _wizardTimer.Dispose();
+        _usbDebounceTimer.Dispose();
+        _cooldownTimer.Dispose();
+        _startupRefreshTimer.Dispose();
+    }
+
+    base.Dispose(disposing);
+}
 
     public void RefreshAll()
     {
@@ -140,6 +258,63 @@ internal sealed class MainForm : Form
         RefreshUsbDevices();
         Log("Refreshed monitors and USB devices.");
     }
+
+	private void LoadConfig()
+{
+    try
+    {
+        if (!File.Exists(_configPath))
+        {
+            _config = new AppConfig();
+            return;
+        }
+
+        var json = File.ReadAllText(_configPath);
+		_config = JsonSerializer.Deserialize<AppConfig>(json) ?? new AppConfig();
+		_config.TrackedFamilies ??= new List<string>();
+		_config.SelectedMonitorIds ??= new List<string>();
+        _config.SelectedMonitorIds ??= new List<string>();
+
+        Log($"Config loaded: {_configPath}");
+    }
+    catch (Exception ex)
+    {
+        _config = new AppConfig();
+        Log($"Failed to load config: {ex}");
+    }
+}
+
+    private void SaveConfig()
+{
+    try
+    {
+        Directory.CreateDirectory(_configDirectory);
+
+        var json = JsonSerializer.Serialize(_config, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        File.WriteAllText(_configPath, json);
+        Log($"Config saved: {_configPath}");
+    }
+    catch (Exception ex)
+    {
+        Log($"Failed to save config: {ex}");
+    }
+}
+
+
+private string GetMonitorSelectionKey(MonitorInfo monitor)
+{
+    if (monitor == null)
+        return string.Empty;
+
+    if (!string.IsNullOrWhiteSpace(monitor.DeviceId))
+        return monitor.DeviceId;
+
+    return monitor.DisplayName ?? string.Empty;
+}
 
     private void BuildUi()
     {
@@ -185,7 +360,14 @@ internal sealed class MainForm : Form
         wizardPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         wizardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         var wizardButtons = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
-        wizardButtons.Controls.AddRange(new Control[] { _snapshotBeforeBtn, _snapshotAwayBtn, _snapshotBackBtn, _proposeTrackedBtn });
+        wizardButtons.Controls.AddRange(new Control[]
+        {
+            _guidedWizardBtn,
+            _snapshotBeforeBtn,
+            _snapshotAwayBtn,
+            _snapshotBackBtn,
+            _proposeTrackedBtn
+        });
         wizardPanel.Controls.Add(wizardButtons, 0, 0);
         wizardPanel.Controls.Add(_wizardSummary, 0, 1);
         wizardTab.Controls.Add(wizardPanel);
@@ -195,10 +377,19 @@ internal sealed class MainForm : Form
     private void WireEvents()
     {
         _refreshMonitorsBtn.Click += (_, _) => RefreshMonitors();
+        _monitorList.ItemChecked += MonitorList_ItemChecked;
         _refreshUsbBtn.Click += (_, _) => RefreshUsbDevices();
+		
+		_startupRefreshTimer.Tick += StartupRefreshTimer_Tick;
 
         _toPcBtn.Click += (_, _) => ManualSwitchSelectedMonitor(toLaptop: false);
         _toLaptopBtn.Click += (_, _) => ManualSwitchSelectedMonitor(toLaptop: true);
+
+        _guidedWizardBtn.Click += (_, _) => StartGuidedWizard();
+        _wizardTimer.Tick += WizardTimer_Tick;
+
+        _usbDebounceTimer.Tick += UsbDebounceTimer_Tick;
+        _cooldownTimer.Tick += CooldownTimer_Tick;
 
         _snapshotBeforeBtn.Click += (_, _) =>
         {
@@ -227,37 +418,276 @@ internal sealed class MainForm : Form
             _tabs.SelectedIndex = 3;
         };
 
-        _autoSwitchCheck.CheckedChanged += (_, _) =>
-        {
-            Log(_autoSwitchCheck.Checked
-                ? "Auto-switching enabled (event-driven detection not yet wired in this scaffold)."
-                : "Auto-switching disabled.");
-        };
+		_autoSwitchCheck.CheckedChanged += (_, _) =>
+{
+    _config.AutoSwitchEnabled = _autoSwitchCheck.Checked;
+    SaveConfig();
+
+    if (_autoSwitchCheck.Checked)
+    {
+        Log(_trackedFamilies.Count > 0
+            ? $"Auto-switching enabled with {_trackedFamilies.Count} tracked families."
+            : "Auto-switching enabled, but no tracked families have been learned yet.");
+    }
+    else
+    {
+        Log("Auto-switching disabled.");
+    }
+};
     }
 
-    private void RefreshMonitors()
-    {
-        _monitors = MonitorController.GetMonitors();
-        _monitorList.Items.Clear();
 
-        foreach (var m in _monitors)
+private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
+{
+    if (_updatingMonitorChecks)
+        return;
+
+    if (_config == null)
+        return;
+
+    var selected = new List<string>();
+
+    foreach (ListViewItem item in _monitorList.Items)
+    {
+        if (item == null || !item.Checked)
+            continue;
+
+        if (item.Tag is not MonitorInfo monitor)
+            continue;
+
+        var key = GetMonitorSelectionKey(monitor);
+        if (string.IsNullOrWhiteSpace(key))
+            continue;
+
+        selected.Add(key);
+    }
+
+    _config.SelectedMonitorIds = selected;
+    SaveConfig();
+
+    Log($"Saved {selected.Count} selected monitor(s) for auto-switch.");
+}
+
+    private void StartGuidedWizard()
+    {
+        if (_guidedWizardPhase != 0)
         {
-            var item = new ListViewItem(new[]
-            {
-                m.BestName,
-                m.DeviceId,
-                m.PhysicalDescription,
-                m.IsAccessible ? "Yes" : "No"
-            })
-            {
-                Tag = m
-            };
-            _monitorList.Items.Add(item);
+            Log("Guided wizard is already running.");
+            return;
         }
 
-        EnsureMonitorColumns();
-        Log($"Enumerated {_monitors.Count} monitor entries.");
+        _snapshotBefore = DeviceEnumerator.GetPresentDevices().Where(IsLikelyUsbish).ToList();
+        _snapshotAway = new List<DeviceInfo>();
+        _snapshotBack = new List<DeviceInfo>();
+
+        _guidedWizardPhase = 1;
+        _tabs.SelectedIndex = 3;
+
+        _wizardSummary.Text =
+            "Guided USB Wizard\r\n\r\n" +
+            "Step 1 complete: captured current USB snapshot.\r\n\r\n" +
+            "Now switch the USB switch to the laptop.\r\n" +
+            "The app will capture the 'away' snapshot automatically in 10 seconds.";
+
+        Log($"Guided wizard: captured current USB snapshot: {_snapshotBefore.Count} devices.");
+        Log("Guided wizard: switch the USB switch to the laptop now. Capturing 'away' snapshot in 10 seconds.");
+
+        _wizardTimer.Start();
     }
+
+    private void WizardTimer_Tick(object? sender, EventArgs e)
+    {
+        _wizardTimer.Stop();
+
+        if (_guidedWizardPhase == 1)
+        {
+            _snapshotAway = DeviceEnumerator.GetPresentDevices().Where(IsLikelyUsbish).ToList();
+            _guidedWizardPhase = 2;
+
+            Log($"Guided wizard: captured 'away' USB snapshot: {_snapshotAway.Count} devices.");
+            _wizardSummary.Text =
+                "Guided USB Wizard\r\n\r\n" +
+                "Step 2 complete: captured snapshot while switched away.\r\n\r\n" +
+                "Now switch the USB switch back to the PC.\r\n" +
+                "The app will capture the 'back' snapshot automatically in 10 seconds.";
+
+            Log("Guided wizard: switch the USB switch back to the PC now. Capturing 'back' snapshot in 10 seconds.");
+            _wizardTimer.Start();
+            return;
+        }
+
+        if (_guidedWizardPhase == 2)
+        {
+            _snapshotBack = DeviceEnumerator.GetPresentDevices().Where(IsLikelyUsbish).ToList();
+            _guidedWizardPhase = 0;
+
+            Log($"Guided wizard: captured 'back' USB snapshot: {_snapshotBack.Count} devices.");
+            UpdateWizardSummary();
+
+            if (_trackedFamilies.Count > 0)
+            {
+                _switchState = SwitchState.OnPc;
+                Log($"Guided wizard completed. Learned {_trackedFamilies.Count} tracked families.");
+            }
+            else
+            {
+                Log("Guided wizard completed, but no tracked families were learned.");
+            }
+        }
+    }
+
+    private void OnUsbTopologyChanged()
+    {
+        if (!_autoSwitchCheck.Checked)
+            return;
+
+        if (_guidedWizardPhase != 0)
+            return;
+
+        if (_isInCooldown)
+            return;
+
+        if (_trackedFamilies.Count == 0)
+            return;
+
+        _usbDebounceTimer.Stop();
+        _usbDebounceTimer.Start();
+    }
+
+    private void UsbDebounceTimer_Tick(object? sender, EventArgs e)
+    {
+        _usbDebounceTimer.Stop();
+        EvaluateAutoSwitch();
+    }
+
+    private void EvaluateAutoSwitch()
+    {
+        var currentFamilies = DeviceEnumerator.GetPresentDevices()
+            .Where(IsLikelyUsbish)
+            .Select(d => FamilyKey(d.InstanceId))
+            .Where(f => _trackedFamilies.Contains(f))
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        int trackedCount = _trackedFamilies.Count;
+        int presentCount = currentFamilies.Count;
+        int missingCount = trackedCount - presentCount;
+
+        int awayThreshold = Math.Max(2, (int)Math.Ceiling(trackedCount * 0.35));
+        int backThreshold = Math.Max(2, (int)Math.Ceiling(trackedCount * 0.25));
+
+        Log($"Auto-switch eval: tracked={trackedCount}, present={presentCount}, missing={missingCount}, state={_switchState}");
+
+        if ((_switchState == SwitchState.Unknown || _switchState == SwitchState.OnPc) && missingCount >= awayThreshold)
+        {
+            Log("Auto-switch: inferred USB switched away from PC.");
+            AutoSwitchMonitors(toLaptop: true);
+            _switchState = SwitchState.Away;
+            EnterCooldown();
+            return;
+        }
+
+        if (_switchState == SwitchState.Away && presentCount >= backThreshold)
+        {
+            Log("Auto-switch: inferred USB switched back to PC.");
+            AutoSwitchMonitors(toLaptop: false);
+            _switchState = SwitchState.OnPc;
+            EnterCooldown();
+        }
+    }
+
+    private void EnterCooldown()
+    {
+        _isInCooldown = true;
+        _cooldownTimer.Stop();
+        _cooldownTimer.Start();
+        Log("Auto-switch cooldown started.");
+    }
+
+    private void CooldownTimer_Tick(object? sender, EventArgs e)
+    {
+        _cooldownTimer.Stop();
+        _isInCooldown = false;
+        Log("Auto-switch cooldown ended.");
+    }
+
+    private void AutoSwitchMonitors(bool toLaptop)
+    {
+        uint inputValue = toLaptop ? _config.LaptopInputValue : _config.PcInputValue;
+        string label = toLaptop ? "Laptop" : "PC";
+
+        RefreshMonitors();
+
+        var selectedIds = _config.SelectedMonitorIds.ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var monitor in _monitors.Where(m =>
+		m.IsAccessible &&
+		(selectedIds.Count == 0 || selectedIds.Contains(GetMonitorSelectionKey(m)))))
+        {
+            bool ok = MonitorController.TrySetInput(monitor, inputValue);
+            Log(ok
+                ? $"Auto-switched '{monitor.BestName}' to {label} ({inputValue})."
+                : $"Failed to auto-switch '{monitor.BestName}' to {label} ({inputValue}).");
+        }
+    }
+
+    private void ReleaseMonitorHandles()
+    {
+        foreach (var monitor in _monitors)
+        {
+            if (monitor.PhysicalHandle != IntPtr.Zero)
+            {
+                NativeMethods.DestroyPhysicalMonitor(monitor.PhysicalHandle);
+            }
+        }
+
+        _monitors.Clear();
+    }
+
+		private void RefreshMonitors()
+		{
+			_updatingMonitorChecks = true;
+			try
+			{
+				ReleaseMonitorHandles();
+
+				_monitors = MonitorController.GetMonitors();
+				_monitorList.BeginUpdate();
+				_monitorList.Items.Clear();
+
+				var selectedIds = (_config.SelectedMonitorIds ?? new List<string>())
+					.ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+				foreach (var m in _monitors)
+				{
+					var key = GetMonitorSelectionKey(m);
+
+					bool isChecked = selectedIds.Count == 0
+						? m.IsAccessible
+						: selectedIds.Contains(key);
+
+					var item = new ListViewItem(new[]
+					{
+						m.BestName,
+						m.DeviceId,
+						m.PhysicalDescription,
+						m.IsAccessible ? "Yes" : "No"
+					});
+
+					item.Tag = m;
+					_monitorList.Items.Add(item);
+					item.Checked = isChecked;
+				}
+
+				EnsureMonitorColumns();
+			}
+			finally
+			{
+				_monitorList.EndUpdate();
+				_updatingMonitorChecks = false;
+			}
+
+			Log($"Enumerated {_monitors.Count} monitor entries.");
+		}
 
     private void RefreshUsbDevices()
     {
@@ -310,6 +740,13 @@ internal sealed class MainForm : Form
             return;
         }
 
+        if (toLaptop)
+            _config.LaptopInputValue = value;
+        else
+            _config.PcInputValue = value;
+
+        SaveConfig();
+
         var ok = MonitorController.TrySetInput(selected, value);
         Log(ok
             ? $"Switched '{selected.DisplayName}' to input value {value}."
@@ -334,11 +771,15 @@ internal sealed class MainForm : Form
 
         var proposed = disappearedWhenAway
             .Where(d => d.InstanceId.Contains(@"USB\VID_", StringComparison.OrdinalIgnoreCase)
-					|| d.InstanceId.Contains(@"HID\VID_", StringComparison.OrdinalIgnoreCase))
+                     || d.InstanceId.Contains(@"HID\VID_", StringComparison.OrdinalIgnoreCase))
             .Select(d => FamilyKey(d.InstanceId))
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(x => x)
             .ToList();
+
+        _trackedFamilies = proposed.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        _config.TrackedFamilies = proposed;
+        SaveConfig();
 
         var sb = new StringBuilder();
         sb.AppendLine("Setup Wizard");
@@ -371,6 +812,9 @@ internal sealed class MainForm : Form
             foreach (var p in proposed)
                 sb.AppendLine($"  - {p}");
 
+        sb.AppendLine();
+        sb.AppendLine($"Tracked family count: {_trackedFamilies.Count}");
+
         _wizardSummary.Text = sb.ToString();
     }
 
@@ -399,8 +843,8 @@ internal sealed class MainForm : Form
     }
 
     private static bool IsLikelyUsbish(DeviceInfo d)
-		=> d.InstanceId.Contains(@"USB\", StringComparison.OrdinalIgnoreCase)
-		|| d.InstanceId.Contains(@"HID\", StringComparison.OrdinalIgnoreCase)
+        => d.InstanceId.Contains(@"USB\", StringComparison.OrdinalIgnoreCase)
+        || d.InstanceId.Contains(@"HID\", StringComparison.OrdinalIgnoreCase)
         || d.EnumeratorName.Contains("USB", StringComparison.OrdinalIgnoreCase)
         || d.ClassName.Contains("HID", StringComparison.OrdinalIgnoreCase)
         || d.ClassName.Contains("Keyboard", StringComparison.OrdinalIgnoreCase)
@@ -423,14 +867,14 @@ internal sealed class MainForm : Form
         };
     }
 
-    private void EnsureMonitorColumns()
-    {
-        if (_monitorList.Columns.Count > 0) return;
-        _monitorList.Columns.Add("Monitor name", 220);
-        _monitorList.Columns.Add("Device ID", 260);
-        _monitorList.Columns.Add("Physical description", 320);
-        _monitorList.Columns.Add("DDC accessible", 100);
-    }
+private void EnsureMonitorColumns()
+{
+    if (_monitorList.Columns.Count > 0) return;
+    _monitorList.Columns.Add("Monitor name", 220);
+    _monitorList.Columns.Add("Device ID", 260);
+    _monitorList.Columns.Add("Physical description", 320);
+    _monitorList.Columns.Add("Input switch probe", 120);
+}
 
     private void EnsureUsbColumns()
     {
@@ -462,6 +906,7 @@ internal static class Prompt
 internal sealed class MonitorInfo
 {
     public string DisplayName { get; init; } = "";
+	public string BusReportedDescription { get; init; } = "";
     public string MonitorDeviceName { get; init; } = "";
     public string PhysicalDescription { get; init; } = "";
     public string DeviceId { get; init; } = "";
@@ -469,6 +914,7 @@ internal sealed class MonitorInfo
     public string EdidName { get; init; } = "";
     public IntPtr HMonitor { get; init; }
     public IntPtr PhysicalHandle { get; init; }
+    public bool HasPhysicalHandle { get; init; }
     public bool IsAccessible { get; init; }
 
     public string BestName
@@ -525,13 +971,19 @@ internal static class MonitorNameResolver
         if (string.IsNullOrWhiteSpace(deviceId))
             return string.Empty;
 
-        // Expected format often looks like:
-        // MONITOR\ACI27A1\{...}
         var parts = deviceId.Split('\\');
         if (parts.Length < 2)
             return string.Empty;
 
-        return parts[1];
+        var model = parts[1];
+
+        if (model.StartsWith("AUS", StringComparison.OrdinalIgnoreCase))
+            return $"ASUS {model}";
+
+        if (model.StartsWith("SAM", StringComparison.OrdinalIgnoreCase))
+            return $"Samsung {model}";
+
+        return model;
     }
 }
 
@@ -566,7 +1018,113 @@ internal static class EdidParser
 
 internal static class MonitorRegistryReader
 {
-    public static string? TryGetEdidName(string deviceId)
+    private static bool TryGetDevicePropertyString(
+    IntPtr infoSet,
+    ref NativeMethods.SP_DEVINFO_DATA devInfo,
+    NativeMethods.DEVPROPKEY propertyKey,
+    out string value)
+{
+    value = string.Empty;
+
+    NativeMethods.SetupDiGetDevicePropertyW(
+        infoSet,
+        ref devInfo,
+        ref propertyKey,
+        out _,
+        IntPtr.Zero,
+        0,
+        out var requiredSize,
+        0);
+
+    if (requiredSize == 0)
+        return false;
+
+    var buffer = Marshal.AllocHGlobal((int)requiredSize);
+    try
+    {
+        if (!NativeMethods.SetupDiGetDevicePropertyW(
+            infoSet,
+            ref devInfo,
+            ref propertyKey,
+            out _,
+            buffer,
+            requiredSize,
+            out _,
+            0))
+            return false;
+
+        value = Marshal.PtrToStringUni(buffer) ?? string.Empty;
+        return !string.IsNullOrWhiteSpace(value);
+    }
+    finally
+    {
+        Marshal.FreeHGlobal(buffer);
+    }
+}
+
+	public static string? TryGetBusReportedDescription(string deviceId)
+{
+    if (string.IsNullOrWhiteSpace(deviceId))
+        return null;
+
+    var classGuid = NativeMethods.GUID_DEVCLASS_MONITOR;
+
+    IntPtr infoSet = NativeMethods.SetupDiGetClassDevs(
+        ref classGuid,
+        null,
+        IntPtr.Zero,
+        NativeMethods.DIGCF_PRESENT);
+
+    if (infoSet == NativeMethods.INVALID_HANDLE_VALUE)
+        return null;
+
+    try
+    {
+        uint index = 0;
+        while (true)
+        {
+            var devInfo = new NativeMethods.SP_DEVINFO_DATA();
+            devInfo.cbSize = (uint)Marshal.SizeOf<NativeMethods.SP_DEVINFO_DATA>();
+
+            if (!NativeMethods.SetupDiEnumDeviceInfo(infoSet, index, ref devInfo))
+            {
+                int err = Marshal.GetLastWin32Error();
+                if (err == NativeMethods.ERROR_NO_MORE_ITEMS)
+                    break;
+
+                return null;
+            }
+
+            index++;
+
+            var instanceId = GetDeviceInstanceId(infoSet, ref devInfo);
+            if (string.IsNullOrWhiteSpace(instanceId))
+                continue;
+
+            if (!IsSameMonitorHardware(instanceId, deviceId))
+                continue;
+
+            if (TryGetDevicePropertyString(
+                infoSet,
+                ref devInfo,
+                NativeMethods.DEVPKEY_Device_BusReportedDeviceDesc,
+                out var value))
+            {
+                return string.IsNullOrWhiteSpace(value) ? null : value;
+            }
+
+            return null;
+        }
+    }
+    finally
+    {
+        NativeMethods.SetupDiDestroyDeviceInfoList(infoSet);
+    }
+
+    return null;
+}
+	
+	public static string? TryGetEdidName(string deviceId)
     {
         if (string.IsNullOrWhiteSpace(deviceId))
             return null;
@@ -606,7 +1164,7 @@ internal static class MonitorRegistryReader
                     continue;
 
                 if (!IsSameMonitorHardware(instanceId, deviceId))
-					continue;
+                    continue;
 
                 IntPtr hKey = NativeMethods.SetupDiOpenDevRegKey(
                     infoSet,
@@ -679,28 +1237,28 @@ internal static class MonitorRegistryReader
 
         return data;
     }
-	
-	private static bool IsSameMonitorHardware(string instanceId, string deviceId)
-{
-    var a = GetMonitorHardwareKey(instanceId);
-    var b = GetMonitorHardwareKey(deviceId);
 
-    return !string.IsNullOrWhiteSpace(a) &&
-           !string.IsNullOrWhiteSpace(b) &&
-           string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
-}
+    private static bool IsSameMonitorHardware(string instanceId, string deviceId)
+    {
+        var a = GetMonitorHardwareKey(instanceId);
+        var b = GetMonitorHardwareKey(deviceId);
 
-private static string GetMonitorHardwareKey(string value)
-{
-    if (string.IsNullOrWhiteSpace(value))
-        return string.Empty;
+        return !string.IsNullOrWhiteSpace(a) &&
+               !string.IsNullOrWhiteSpace(b) &&
+               string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+    }
 
-    var parts = value.Split('\\');
-    if (parts.Length < 2)
-        return string.Empty;
+    private static string GetMonitorHardwareKey(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
 
-    return $@"{parts[0]}\{parts[1]}";
-}
+        var parts = value.Split('\\');
+        if (parts.Length < 2)
+            return string.Empty;
+
+        return $@"{parts[0]}\{parts[1]}";
+    }
 }
 
 internal static class MonitorController
@@ -715,8 +1273,9 @@ internal static class MonitorController
             mi.cbSize = Marshal.SizeOf<NativeMethods.MONITORINFOEX>();
             NativeMethods.GetMonitorInfo(hMonitor, ref mi);
 
-            var (deviceId, deviceString) = MonitorNameResolver.GetMonitorDeviceForDisplay(mi.szDevice);
-            var edidName = MonitorRegistryReader.TryGetEdidName(deviceId) ?? string.Empty;
+			var (deviceId, deviceString) = MonitorNameResolver.GetMonitorDeviceForDisplay(mi.szDevice);
+			var edidName = MonitorRegistryReader.TryGetEdidName(deviceId) ?? string.Empty;
+			var busReportedDescription = MonitorRegistryReader.TryGetBusReportedDescription(deviceId) ?? string.Empty;
 
             if (NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, out uint count) && count > 0)
             {
@@ -725,21 +1284,27 @@ internal static class MonitorController
                 {
                     foreach (var pm in arr)
                     {
-                        result.Add(new MonitorInfo
-                        {
-                            DisplayName = mi.szDevice,
-                            MonitorDeviceName = mi.szDevice,
-                            PhysicalDescription = pm.szPhysicalMonitorDescription,
-                            DeviceId = deviceId,
-                            DeviceString = deviceString,
-                            EdidName = edidName,
-                            HMonitor = hMonitor,
-                            PhysicalHandle = pm.hPhysicalMonitor,
-                            IsAccessible = pm.hPhysicalMonitor != IntPtr.Zero,
-                        });
+                        bool hasHandle = pm.hPhysicalMonitor != IntPtr.Zero;
+                        bool supportsInputSwitch = hasHandle && TryProbeInputSwitch(pm.hPhysicalMonitor);
+
+						result.Add(new MonitorInfo
+						{
+							DisplayName = mi.szDevice,
+							MonitorDeviceName = mi.szDevice,
+							PhysicalDescription = pm.szPhysicalMonitorDescription,
+							DeviceId = deviceId,
+							DeviceString = deviceString,
+							EdidName = edidName,
+							BusReportedDescription = busReportedDescription,
+							HMonitor = hMonitor,
+							PhysicalHandle = pm.hPhysicalMonitor,
+							HasPhysicalHandle = hasHandle,
+							IsAccessible = supportsInputSwitch,
+						});
                     }
-					System.Diagnostics.Debug.WriteLine(
-					$"Display={mi.szDevice}, DeviceId={deviceId}, EdidName={edidName}");
+
+                    System.Diagnostics.Debug.WriteLine(
+                        $"Display={mi.szDevice}, DeviceId={deviceId}, EdidName={edidName}");
                 }
             }
 
@@ -751,8 +1316,20 @@ internal static class MonitorController
 
     public static bool TrySetInput(MonitorInfo monitor, uint inputValue)
     {
-        if (monitor.PhysicalHandle == IntPtr.Zero) return false;
+        if (monitor.PhysicalHandle == IntPtr.Zero)
+            return false;
+
         return NativeMethods.SetVCPFeature(monitor.PhysicalHandle, 0x60, inputValue);
+    }
+
+    private static bool TryProbeInputSwitch(IntPtr physicalHandle)
+    {
+        return NativeMethods.GetVCPFeatureAndVCPFeatureReply(
+            physicalHandle,
+            0x60,
+            out _,
+            out _,
+            out _);
     }
 }
 
@@ -848,7 +1425,7 @@ internal static class DeviceEnumerator
             return new List<string>();
 
         var s = Encoding.Unicode.GetString(bytes).TrimEnd('\0');
-			return s.Split('\0', StringSplitOptions.RemoveEmptyEntries).ToList();
+        return s.Split('\0', StringSplitOptions.RemoveEmptyEntries).ToList();
     }
 
     private static bool TryGetDevicePropertyString(IntPtr infoSet, ref NativeMethods.SP_DEVINFO_DATA devInfo, NativeMethods.DEVPROPKEY propertyKey, out string value)
@@ -909,6 +1486,9 @@ internal static class NativeMethods
     public const uint KEY_READ = 0x20019;
     public const uint REG_BINARY = 3;
 
+	public static readonly DEVPROPKEY DEVPKEY_Device_BusReportedDeviceDesc =
+    new(new Guid("540b947e-8b40-45bc-a8a2-6a0b894cbda2"), 4);
+	
     public static readonly DEVPROPKEY DEVPKEY_NAME =
         new(new Guid("b725f130-47ef-101a-a5f1-02608c9eebac"), 10);
 
@@ -1095,6 +1675,17 @@ internal static class NativeMethods
         IntPtr hMonitor,
         uint dwPhysicalMonitorArraySize,
         [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
+
+    [DllImport("dxva2.dll", SetLastError = true)]
+    public static extern bool DestroyPhysicalMonitor(IntPtr hMonitor);
+
+    [DllImport("dxva2.dll", SetLastError = true)]
+    public static extern bool GetVCPFeatureAndVCPFeatureReply(
+        IntPtr hMonitor,
+        byte bVCPCode,
+        out uint pvct,
+        out uint pdwCurrentValue,
+        out uint pdwMaximumValue);
 
     [DllImport("dxva2.dll", SetLastError = true)]
     public static extern bool SetVCPFeature(
