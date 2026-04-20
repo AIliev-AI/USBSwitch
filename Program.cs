@@ -62,7 +62,11 @@ internal sealed class TrayApplicationContext : ApplicationContext
         };
 
         _notifyIcon.DoubleClick += (_, _) => ShowMainForm();
-        ShowMainForm();
+
+        if (_mainForm.ShouldStartMinimizedToTray)
+            _mainForm.LogStartupMode("Started minimized to tray.");
+        else
+            ShowMainForm();
     }
 
     private void TrayMenu_Opening(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -111,6 +115,7 @@ internal sealed class AppConfig
     public uint LaptopInputValue { get; set; } = 17;
     public bool AutoSwitchEnabled { get; set; } = false;
     public bool RunOnStartup { get; set; } = false;
+    public bool StartMinimizedToTray { get; set; } = false;
     public List<string> SelectedMonitorIds { get; set; } = new();
     public Dictionary<string, string> MonitorCustomNames { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 }
@@ -146,6 +151,7 @@ internal sealed class MainForm : Form
     private readonly TextBox _logBox = new() { Dock = DockStyle.Fill, Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical };
     private readonly CheckBox _autoSwitchCheck = new() { Text = "Enable auto-monitor-switching based on USB changes", Dock = DockStyle.Top, Height = 30 };
     private readonly CheckBox _runOnStartupCheck = new() { Text = "Run on Windows startup", Dock = DockStyle.Top, Height = 30 };
+    private readonly CheckBox _startMinimizedCheck = new() { Text = "Start minimized to tray", Dock = DockStyle.Top, Height = 30 };
 
     private readonly Button _refreshMonitorsBtn = new() { Text = "Refresh monitors", AutoSize = true };
     private readonly Button _renameMonitorBtn = new() { Text = "Rename selected monitor", AutoSize = true };
@@ -196,29 +202,11 @@ public MainForm()
 
     BuildUi();
     WireEvents();
-
-    _autoSwitchCheck.Checked = _config.AutoSwitchEnabled;
-    _runOnStartupCheck.Checked = StartupManager.IsEnabled();
-
-    if (_config.RunOnStartup != _runOnStartupCheck.Checked)
-    {
-        _config.RunOnStartup = _runOnStartupCheck.Checked;
-        SaveConfig();
-    }
+    ApplyConfigToUi();
+    SyncRunOnStartupFromSystem();
 
     RefreshAll();
-
-    Log(_trackedFamilies.Count > 0
-        ? $"Loaded {_trackedFamilies.Count} tracked families from config."
-        : "No tracked families loaded from config.");
-
-    Log(_autoSwitchCheck.Checked
-        ? "Auto-switching restored as enabled from config."
-        : "Auto-switching restored as disabled from config.");
-
-    Log(_runOnStartupCheck.Checked
-        ? "Run on startup restored as enabled."
-        : "Run on startup restored as disabled.");
+    LogInitialConfiguration();
 }
 
     protected override void OnShown(EventArgs e)
@@ -226,7 +214,14 @@ public MainForm()
     base.OnShown(e);
     _startupRefreshTimer.Start();
 }
-	
+
+    public bool ShouldStartMinimizedToTray => _config.StartMinimizedToTray;
+
+    public void LogStartupMode(string message)
+    {
+        Log(message);
+    }
+
 	private void StartupRefreshTimer_Tick(object? sender, EventArgs e)
 {
     _startupRefreshTimer.Stop();
@@ -324,6 +319,49 @@ public MainForm()
 }
 
 
+
+    private void ApplyConfigToUi()
+    {
+        _autoSwitchCheck.Checked = _config.AutoSwitchEnabled;
+        _startMinimizedCheck.Checked = _config.StartMinimizedToTray;
+    }
+
+    private void SyncRunOnStartupFromSystem()
+    {
+        _runOnStartupCheck.Checked = StartupManager.IsEnabled();
+
+        if (_config.RunOnStartup == _runOnStartupCheck.Checked)
+            return;
+
+        _config.RunOnStartup = _runOnStartupCheck.Checked;
+        SaveConfig();
+    }
+
+    private void LogInitialConfiguration()
+    {
+        Log(_trackedFamilies.Count > 0
+            ? $"Loaded {_trackedFamilies.Count} tracked families from config."
+            : "No tracked families loaded from config.");
+
+        Log(_autoSwitchCheck.Checked
+            ? "Auto-switching restored as enabled from config."
+            : "Auto-switching restored as disabled from config.");
+
+        Log(_runOnStartupCheck.Checked
+            ? "Run on startup restored as enabled."
+            : "Run on startup restored as disabled.");
+
+        Log(_startMinimizedCheck.Checked
+            ? "Start minimized to tray restored as enabled."
+            : "Start minimized to tray restored as disabled.");
+    }
+
+    private HashSet<string> GetSelectedMonitorIdSet()
+    {
+        return (_config.SelectedMonitorIds ?? new List<string>())
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    }
+
 private string GetMonitorSelectionKey(MonitorInfo monitor)
 {
     if (monitor == null)
@@ -368,13 +406,15 @@ private string GetDisplayName(MonitorInfo monitor)
 
         // Status tab
         var statusTab = new TabPage("Status");
-        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
+        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4 };
+        statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         statusPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         statusPanel.Controls.Add(_autoSwitchCheck, 0, 0);
         statusPanel.Controls.Add(_runOnStartupCheck, 0, 1);
-        statusPanel.Controls.Add(_logBox, 0, 2);
+        statusPanel.Controls.Add(_startMinimizedCheck, 0, 2);
+        statusPanel.Controls.Add(_logBox, 0, 3);
         statusTab.Controls.Add(statusPanel);
         _tabs.TabPages.Add(statusTab);
 
@@ -486,6 +526,7 @@ private string GetDisplayName(MonitorInfo monitor)
         };
 
         _runOnStartupCheck.CheckedChanged += (_, _) => ApplyRunOnStartupSetting();
+        _startMinimizedCheck.CheckedChanged += (_, _) => ApplyStartMinimizedSetting();
     }
 
 
@@ -541,6 +582,15 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
         _config.RunOnStartup = enabled;
         SaveConfig();
         Log(enabled ? "Run on startup enabled." : "Run on startup disabled.");
+    }
+
+    private void ApplyStartMinimizedSetting()
+    {
+        _config.StartMinimizedToTray = _startMinimizedCheck.Checked;
+        SaveConfig();
+        Log(_config.StartMinimizedToTray
+            ? "Start minimized to tray enabled."
+            : "Start minimized to tray disabled.");
     }
 
     private MonitorInfo? GetSelectedMonitor()
@@ -626,8 +676,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
             parentMenuItem.DropDownItems.Add(targetMenu);
         }
 
-        var selectedIds = (_config.SelectedMonitorIds ?? new List<string>())
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var selectedIds = GetSelectedMonitorIdSet();
 
         var selectedMonitors = _monitors
             .Where(m => m.IsAccessible && (selectedIds.Count == 0 || selectedIds.Contains(GetMonitorSelectionKey(m))))
@@ -810,7 +859,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
         RefreshMonitors();
 
-        var selectedIds = _config.SelectedMonitorIds.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var selectedIds = GetSelectedMonitorIdSet();
 
         foreach (var monitor in _monitors.Where(m =>
 		m.IsAccessible &&
@@ -847,8 +896,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 				_monitorList.BeginUpdate();
 				_monitorList.Items.Clear();
 
-				var selectedIds = (_config.SelectedMonitorIds ?? new List<string>())
-					.ToHashSet(StringComparer.OrdinalIgnoreCase);
+				var selectedIds = GetSelectedMonitorIdSet();
 
 				foreach (var m in _monitors)
 				{
