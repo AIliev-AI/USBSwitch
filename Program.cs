@@ -37,28 +37,37 @@ internal sealed class TrayApplicationContext : ApplicationContext
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly MainForm _mainForm;
+    private readonly ContextMenuStrip _trayMenu = new();
+    private readonly ToolStripMenuItem _manualSwitchMenuItem = new("Switch Monitors Manually");
 
     public TrayApplicationContext()
     {
         _mainForm = new MainForm();
         _mainForm.FormClosing += MainForm_FormClosing;
 
-        var menu = new ContextMenuStrip();
-        menu.Items.Add("Open", null, (_, _) => ShowMainForm());
-        menu.Items.Add("Refresh", null, (_, _) => _mainForm.RefreshAll());
-        menu.Items.Add(new ToolStripSeparator());
-        menu.Items.Add("Exit", null, (_, _) => ExitThread());
+        _trayMenu.Items.Add("Open", null, (_, _) => ShowMainForm());
+        _trayMenu.Items.Add("Refresh", null, (_, _) => _mainForm.RefreshAll());
+        _trayMenu.Items.Add(_manualSwitchMenuItem);
+        _trayMenu.Items.Add(new ToolStripSeparator());
+        _trayMenu.Items.Add("Exit", null, (_, _) => ExitThread());
+
+        _trayMenu.Opening += TrayMenu_Opening;
 
         _notifyIcon = new NotifyIcon
         {
             Text = "USB Monitor Switcher",
             Icon = SystemIcons.Application,
             Visible = true,
-            ContextMenuStrip = menu
+            ContextMenuStrip = _trayMenu
         };
 
         _notifyIcon.DoubleClick += (_, _) => ShowMainForm();
         ShowMainForm();
+    }
+
+    private void TrayMenu_Opening(object? sender, System.ComponentModel.CancelEventArgs e)
+    {
+        _mainForm.PopulateManualSwitchTrayMenu(_manualSwitchMenuItem);
     }
 
     private void ShowMainForm()
@@ -101,7 +110,9 @@ internal sealed class AppConfig
     public uint PcInputValue { get; set; } = 15;
     public uint LaptopInputValue { get; set; } = 17;
     public bool AutoSwitchEnabled { get; set; } = false;
+    public bool RunOnStartup { get; set; } = false;
     public List<string> SelectedMonitorIds { get; set; } = new();
+    public Dictionary<string, string> MonitorCustomNames { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 }
 
 internal sealed class MainForm : Form
@@ -134,8 +145,11 @@ internal sealed class MainForm : Form
     private readonly ListView _usbList = CreateListView();
     private readonly TextBox _logBox = new() { Dock = DockStyle.Fill, Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical };
     private readonly CheckBox _autoSwitchCheck = new() { Text = "Enable auto-monitor-switching based on USB changes", Dock = DockStyle.Top, Height = 30 };
+    private readonly CheckBox _runOnStartupCheck = new() { Text = "Run on Windows startup", Dock = DockStyle.Top, Height = 30 };
 
     private readonly Button _refreshMonitorsBtn = new() { Text = "Refresh monitors", AutoSize = true };
+    private readonly Button _renameMonitorBtn = new() { Text = "Rename selected monitor", AutoSize = true };
+    private readonly Button _clearMonitorRenameBtn = new() { Text = "Clear custom name", AutoSize = true };
     private readonly Button _toPcBtn = new() { Text = "Switch selected monitor to PC", AutoSize = true };
     private readonly Button _toLaptopBtn = new() { Text = "Switch selected monitor to Laptop", AutoSize = true };
 
@@ -184,6 +198,13 @@ public MainForm()
     WireEvents();
 
     _autoSwitchCheck.Checked = _config.AutoSwitchEnabled;
+    _runOnStartupCheck.Checked = StartupManager.IsEnabled();
+
+    if (_config.RunOnStartup != _runOnStartupCheck.Checked)
+    {
+        _config.RunOnStartup = _runOnStartupCheck.Checked;
+        SaveConfig();
+    }
 
     RefreshAll();
 
@@ -195,14 +216,10 @@ public MainForm()
         ? "Auto-switching restored as enabled from config."
         : "Auto-switching restored as disabled from config.");
 
-
-Log(_autoSwitchCheck.Checked
-    ? "Auto-switching restored as enabled from config."
-    : "Auto-switching restored as disabled from config.");
-
-        if (_trackedFamilies.Count > 0)
-            Log($"Loaded {_trackedFamilies.Count} tracked families from config.");
-    }
+    Log(_runOnStartupCheck.Checked
+        ? "Run on startup restored as enabled."
+        : "Run on startup restored as disabled.");
+}
 
     protected override void OnShown(EventArgs e)
 {
@@ -266,20 +283,22 @@ Log(_autoSwitchCheck.Checked
         if (!File.Exists(_configPath))
         {
             _config = new AppConfig();
+            _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             return;
         }
 
         var json = File.ReadAllText(_configPath);
-		_config = JsonSerializer.Deserialize<AppConfig>(json) ?? new AppConfig();
-		_config.TrackedFamilies ??= new List<string>();
-		_config.SelectedMonitorIds ??= new List<string>();
+        _config = JsonSerializer.Deserialize<AppConfig>(json) ?? new AppConfig();
+        _config.TrackedFamilies ??= new List<string>();
         _config.SelectedMonitorIds ??= new List<string>();
+        _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         Log($"Config loaded: {_configPath}");
     }
     catch (Exception ex)
     {
         _config = new AppConfig();
+        _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         Log($"Failed to load config: {ex}");
     }
 }
@@ -316,17 +335,46 @@ private string GetMonitorSelectionKey(MonitorInfo monitor)
     return monitor.DisplayName ?? string.Empty;
 }
 
+private string GetCustomMonitorName(MonitorInfo monitor)
+{
+    var key = GetMonitorSelectionKey(monitor);
+    if (string.IsNullOrWhiteSpace(key))
+        return string.Empty;
+
+    if (_config.MonitorCustomNames.TryGetValue(key, out var customName))
+        return customName?.Trim() ?? string.Empty;
+
+    return string.Empty;
+}
+
+private string GetDisplayName(MonitorInfo monitor)
+{
+    if (monitor == null)
+        return string.Empty;
+
+    var customName = GetCustomMonitorName(monitor);
+    if (!string.IsNullOrWhiteSpace(customName))
+        return customName;
+
+    if (!string.IsNullOrWhiteSpace(monitor.BestName))
+        return monitor.BestName;
+
+    return monitor.DisplayName ?? string.Empty;
+}
+
     private void BuildUi()
     {
         Controls.Add(_tabs);
 
         // Status tab
         var statusTab = new TabPage("Status");
-        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
+        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
+        statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         statusPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         statusPanel.Controls.Add(_autoSwitchCheck, 0, 0);
-        statusPanel.Controls.Add(_logBox, 0, 1);
+        statusPanel.Controls.Add(_runOnStartupCheck, 0, 1);
+        statusPanel.Controls.Add(_logBox, 0, 2);
         statusTab.Controls.Add(statusPanel);
         _tabs.TabPages.Add(statusTab);
 
@@ -336,7 +384,7 @@ private string GetMonitorSelectionKey(MonitorInfo monitor)
         monitorsPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         monitorsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         var monitorButtons = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
-        monitorButtons.Controls.AddRange(new Control[] { _refreshMonitorsBtn, _toPcBtn, _toLaptopBtn });
+        monitorButtons.Controls.AddRange(new Control[] { _refreshMonitorsBtn, _renameMonitorBtn, _clearMonitorRenameBtn, _toPcBtn, _toLaptopBtn });
         monitorsPanel.Controls.Add(monitorButtons, 0, 0);
         monitorsPanel.Controls.Add(_monitorList, 0, 1);
         monitorsTab.Controls.Add(monitorsPanel);
@@ -377,10 +425,12 @@ private string GetMonitorSelectionKey(MonitorInfo monitor)
     private void WireEvents()
     {
         _refreshMonitorsBtn.Click += (_, _) => RefreshMonitors();
+        _renameMonitorBtn.Click += (_, _) => RenameSelectedMonitor();
+        _clearMonitorRenameBtn.Click += (_, _) => ClearSelectedMonitorRename();
         _monitorList.ItemChecked += MonitorList_ItemChecked;
         _refreshUsbBtn.Click += (_, _) => RefreshUsbDevices();
-		
-		_startupRefreshTimer.Tick += StartupRefreshTimer_Tick;
+
+        _startupRefreshTimer.Tick += StartupRefreshTimer_Tick;
 
         _toPcBtn.Click += (_, _) => ManualSwitchSelectedMonitor(toLaptop: false);
         _toLaptopBtn.Click += (_, _) => ManualSwitchSelectedMonitor(toLaptop: true);
@@ -418,22 +468,24 @@ private string GetMonitorSelectionKey(MonitorInfo monitor)
             _tabs.SelectedIndex = 3;
         };
 
-		_autoSwitchCheck.CheckedChanged += (_, _) =>
-{
-    _config.AutoSwitchEnabled = _autoSwitchCheck.Checked;
-    SaveConfig();
+        _autoSwitchCheck.CheckedChanged += (_, _) =>
+        {
+            _config.AutoSwitchEnabled = _autoSwitchCheck.Checked;
+            SaveConfig();
 
-    if (_autoSwitchCheck.Checked)
-    {
-        Log(_trackedFamilies.Count > 0
-            ? $"Auto-switching enabled with {_trackedFamilies.Count} tracked families."
-            : "Auto-switching enabled, but no tracked families have been learned yet.");
-    }
-    else
-    {
-        Log("Auto-switching disabled.");
-    }
-};
+            if (_autoSwitchCheck.Checked)
+            {
+                Log(_trackedFamilies.Count > 0
+                    ? $"Auto-switching enabled with {_trackedFamilies.Count} tracked families."
+                    : "Auto-switching enabled, but no tracked families have been learned yet.");
+            }
+            else
+            {
+                Log("Auto-switching disabled.");
+            }
+        };
+
+        _runOnStartupCheck.CheckedChanged += (_, _) => ApplyRunOnStartupSetting();
     }
 
 
@@ -467,6 +519,147 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
     Log($"Saved {selected.Count} selected monitor(s) for auto-switch.");
 }
+
+    private void ApplyRunOnStartupSetting()
+    {
+        bool enabled = _runOnStartupCheck.Checked;
+        bool success = StartupManager.SetEnabled(enabled);
+
+        if (!success)
+        {
+            Log(enabled
+                ? "Failed to enable run on startup."
+                : "Failed to disable run on startup.");
+
+            bool actual = StartupManager.IsEnabled();
+            _runOnStartupCheck.Checked = actual;
+            _config.RunOnStartup = actual;
+            SaveConfig();
+            return;
+        }
+
+        _config.RunOnStartup = enabled;
+        SaveConfig();
+        Log(enabled ? "Run on startup enabled." : "Run on startup disabled.");
+    }
+
+    private MonitorInfo? GetSelectedMonitor()
+    {
+        if (_monitorList.SelectedItems.Count == 0)
+            return null;
+
+        return _monitorList.SelectedItems[0].Tag as MonitorInfo;
+    }
+
+    private void RenameSelectedMonitor()
+    {
+        var selected = GetSelectedMonitor();
+        if (selected == null)
+        {
+            MessageBox.Show(this, "Select a monitor first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        var existingName = GetCustomMonitorName(selected);
+        var defaultValue = string.IsNullOrWhiteSpace(existingName) ? selected.BestName : existingName;
+
+        var input = Prompt.ShowDialog(
+            this,
+            $"Enter a custom name for '{selected.BestName}'",
+            "Rename monitor",
+            defaultValue);
+
+        if (string.IsNullOrWhiteSpace(input))
+            return;
+
+        var key = GetMonitorSelectionKey(selected);
+        if (string.IsNullOrWhiteSpace(key))
+            return;
+
+        _config.MonitorCustomNames[key] = input.Trim();
+        SaveConfig();
+        RefreshMonitors();
+        Log($"Saved custom monitor name '{input.Trim()}' for '{selected.BestName}'.");
+    }
+
+    private void ClearSelectedMonitorRename()
+    {
+        var selected = GetSelectedMonitor();
+        if (selected == null)
+        {
+            MessageBox.Show(this, "Select a monitor first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        var key = GetMonitorSelectionKey(selected);
+        if (string.IsNullOrWhiteSpace(key))
+            return;
+
+        if (_config.MonitorCustomNames.Remove(key))
+        {
+            SaveConfig();
+            RefreshMonitors();
+            Log($"Cleared custom monitor name for '{selected.BestName}'.");
+        }
+        else
+        {
+            Log($"No custom monitor name found for '{selected.BestName}'.");
+        }
+    }
+
+    public void PopulateManualSwitchTrayMenu(ToolStripMenuItem parentMenuItem)
+    {
+        parentMenuItem.DropDownItems.Clear();
+
+        RefreshMonitors();
+
+        void AddTargetMenu(string title, List<MonitorInfo> monitors)
+        {
+            var targetMenu = new ToolStripMenuItem(title)
+            {
+                Enabled = monitors.Count > 0
+            };
+
+            targetMenu.DropDownItems.Add("Switch to PC", null, (_, _) => ManualSwitchFromTray(monitors, toLaptop: false));
+            targetMenu.DropDownItems.Add("Switch to Laptop", null, (_, _) => ManualSwitchFromTray(monitors, toLaptop: true));
+
+            parentMenuItem.DropDownItems.Add(targetMenu);
+        }
+
+        var selectedIds = (_config.SelectedMonitorIds ?? new List<string>())
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var selectedMonitors = _monitors
+            .Where(m => m.IsAccessible && (selectedIds.Count == 0 || selectedIds.Contains(GetMonitorSelectionKey(m))))
+            .ToList();
+
+        AddTargetMenu("All", selectedMonitors);
+
+        if (selectedMonitors.Count > 0)
+            parentMenuItem.DropDownItems.Add(new ToolStripSeparator());
+
+        foreach (var monitor in selectedMonitors)
+            AddTargetMenu(GetDisplayName(monitor), new List<MonitorInfo> { monitor });
+
+        if (parentMenuItem.DropDownItems.Count == 0)
+        {
+            parentMenuItem.DropDownItems.Add(new ToolStripMenuItem("No eligible monitors") { Enabled = false });
+        }
+    }
+
+    private void ManualSwitchFromTray(List<MonitorInfo> monitors, bool toLaptop)
+    {
+        uint inputValue = toLaptop ? _config.LaptopInputValue : _config.PcInputValue;
+        string label = toLaptop ? "Laptop" : "PC";
+
+        foreach (var monitor in monitors.Where(m => m.IsAccessible))
+        {
+            bool ok = MonitorController.TrySetInput(monitor, inputValue);
+            Log(ok
+                ? $"Tray switch: '{GetDisplayName(monitor)}' -> {label} ({inputValue})."
+                : $"Tray switch failed: '{GetDisplayName(monitor)}' -> {label} ({inputValue}).");
+        }
+    }
 
     private void StartGuidedWizard()
     {
@@ -625,8 +818,8 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
         {
             bool ok = MonitorController.TrySetInput(monitor, inputValue);
             Log(ok
-                ? $"Auto-switched '{monitor.BestName}' to {label} ({inputValue})."
-                : $"Failed to auto-switch '{monitor.BestName}' to {label} ({inputValue}).");
+                ? $"Auto-switched '{GetDisplayName(monitor)}' to {label} ({inputValue})."
+                : $"Failed to auto-switch '{GetDisplayName(monitor)}' to {label} ({inputValue}).");
         }
     }
 
@@ -667,9 +860,11 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
 					var item = new ListViewItem(new[]
 					{
+						GetDisplayName(m),
 						m.BestName,
 						m.DeviceId,
 						m.PhysicalDescription,
+                        m.BusReportedDescription,
 						m.IsAccessible ? "Yes" : "No"
 					});
 
@@ -727,7 +922,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
         var label = toLaptop ? "Laptop" : "PC";
 
         var input = Prompt.ShowDialog(this,
-            $"Enter VCP 0x60 input value for '{selected.DisplayName}' -> {label}",
+            $"Enter VCP 0x60 input value for '{GetDisplayName(selected)}' -> {label}",
             "Manual monitor switch",
             defaultValue.ToString());
 
@@ -749,8 +944,8 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
         var ok = MonitorController.TrySetInput(selected, value);
         Log(ok
-            ? $"Switched '{selected.DisplayName}' to input value {value}."
-            : $"Failed to switch '{selected.DisplayName}' to input value {value}.");
+            ? $"Switched '{GetDisplayName(selected)}' to input value {value}."
+            : $"Failed to switch '{GetDisplayName(selected)}' to input value {value}.");
     }
 
     private void UpdateWizardSummary()
@@ -870,9 +1065,11 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 private void EnsureMonitorColumns()
 {
     if (_monitorList.Columns.Count > 0) return;
-    _monitorList.Columns.Add("Monitor name", 220);
+    _monitorList.Columns.Add("Display name", 220);
+    _monitorList.Columns.Add("Detected best name", 220);
     _monitorList.Columns.Add("Device ID", 260);
-    _monitorList.Columns.Add("Physical description", 320);
+    _monitorList.Columns.Add("Physical description", 240);
+    _monitorList.Columns.Add("Bus-reported description", 220);
     _monitorList.Columns.Add("Input switch probe", 120);
 }
 
@@ -922,22 +1119,26 @@ internal sealed class MonitorInfo
         get
         {
             if (!string.IsNullOrWhiteSpace(EdidName))
-                return EdidName;
+                return EdidName.Trim();
+
+            if (!string.IsNullOrWhiteSpace(BusReportedDescription) &&
+                !string.Equals(BusReportedDescription, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
+                return BusReportedDescription.Trim();
 
             if (!string.IsNullOrWhiteSpace(DeviceString) &&
                 !string.Equals(DeviceString, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
-                return DeviceString;
+                return DeviceString.Trim();
 
             if (!string.IsNullOrWhiteSpace(PhysicalDescription) &&
                 !string.Equals(PhysicalDescription, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
-                return PhysicalDescription;
+                return PhysicalDescription.Trim();
 
             var parsed = MonitorNameResolver.TryGetFallbackNameFromDeviceId(DeviceId);
             if (!string.IsNullOrWhiteSpace(parsed))
-                return parsed;
+                return parsed.Trim();
 
             if (!string.IsNullOrWhiteSpace(MonitorDeviceName))
-                return MonitorDeviceName;
+                return MonitorDeviceName.Trim();
 
             return DisplayName;
         }
@@ -1463,6 +1664,52 @@ internal static class DeviceEnumerator
 
         data = buffer;
         return true;
+    }
+}
+
+internal static class StartupManager
+{
+    private const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
+    private const string ValueName = "UsbMonitorSwitcher";
+
+    public static bool IsEnabled()
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RunKeyPath, false);
+            var value = key?.GetValue(ValueName) as string;
+            return string.Equals(value, BuildCommand(), StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static bool SetEnabled(bool enabled)
+    {
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(RunKeyPath, true);
+            if (key == null)
+                return false;
+
+            if (enabled)
+                key.SetValue(ValueName, BuildCommand());
+            else
+                key.DeleteValue(ValueName, false);
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static string BuildCommand()
+    {
+        return $"\"{Application.ExecutablePath}\"";
     }
 }
 

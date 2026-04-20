@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UsbSwitcher")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70e504fbaf7ca04ddae153736aa36e9d4969e908")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3345d01a7f71d61ed5e376200389a06a24fe6fb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("UsbSwitcher")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UsbSwitcher")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
