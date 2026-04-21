@@ -116,8 +116,12 @@ internal sealed class AppConfig
     public bool AutoSwitchEnabled { get; set; } = false;
     public bool RunOnStartup { get; set; } = false;
     public bool StartMinimizedToTray { get; set; } = false;
+    public bool AdvancedMode { get; set; } = false;
     public List<string> SelectedMonitorIds { get; set; } = new();
     public Dictionary<string, string> MonitorCustomNames { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, uint> MonitorVcInputValues { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, MonitorInputMapping> MonitorInputMappings { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    public int GuidedWizardDelaySeconds { get; set; } = 10;
 }
 
 internal sealed class MainForm : Form
@@ -145,28 +149,70 @@ internal sealed class MainForm : Form
         FullRowSelect = true,
         GridLines = true,
         MultiSelect = false,
-        CheckBoxes = true
+        CheckBoxes = true,
+        LabelEdit = true
     };
     private readonly ListView _usbList = CreateListView();
     private readonly TextBox _logBox = new() { Dock = DockStyle.Fill, Multiline = true, ReadOnly = true, ScrollBars = ScrollBars.Vertical };
-    private readonly CheckBox _autoSwitchCheck = new() { Text = "Enable auto-monitor-switching based on USB changes", Dock = DockStyle.Top, Height = 30 };
-    private readonly CheckBox _runOnStartupCheck = new() { Text = "Run on Windows startup", Dock = DockStyle.Top, Height = 30 };
-    private readonly CheckBox _startMinimizedCheck = new() { Text = "Start minimized to tray", Dock = DockStyle.Top, Height = 30 };
+    private readonly CheckBox _autoSwitchCheck = new() { Text = "Enable auto-monitor-switching based on USB changes", AutoSize = true, Margin = new Padding(8) };
+    private readonly CheckBox _runOnStartupCheck = new() { Text = "Run on Windows startup", AutoSize = true, Margin = new Padding(8) };
+    private readonly CheckBox _startMinimizedCheck = new() { Text = "Start minimized to tray", AutoSize = true, Margin = new Padding(8) };
+    private readonly CheckBox _advancedModeCheck = new() { Text = "Advanced mode", AutoSize = true, Margin = new Padding(8) };
 
     private readonly Button _refreshMonitorsBtn = new() { Text = "Refresh monitors", AutoSize = true };
-    private readonly Button _renameMonitorBtn = new() { Text = "Rename selected monitor", AutoSize = true };
     private readonly Button _clearMonitorRenameBtn = new() { Text = "Clear custom name", AutoSize = true };
     private readonly Button _toPcBtn = new() { Text = "Switch selected monitor to PC", AutoSize = true };
     private readonly Button _toLaptopBtn = new() { Text = "Switch selected monitor to Laptop", AutoSize = true };
 
     private readonly Button _refreshUsbBtn = new() { Text = "Refresh USB devices", AutoSize = true };
-    private readonly Button _guidedWizardBtn = new() { Text = "Run guided USB wizard (10s)", AutoSize = true };
+    private readonly Button _guidedWizardBtn = new() { Text = "Run guided USB wizard", AutoSize = true };
+    private readonly Label _wizardDelayLabel = new() { Text = "Delay (s):", AutoSize = true, Margin = new Padding(12, 8, 0, 0) };
+    private readonly TextBox _wizardDelayText = new() { Width = 50, Text = "10" };
     private readonly Button _snapshotBeforeBtn = new() { Text = "1) Capture current USB snapshot", AutoSize = true };
     private readonly Button _snapshotAwayBtn = new() { Text = "2) Switch USB away, then capture", AutoSize = true };
     private readonly Button _snapshotBackBtn = new() { Text = "3) Switch USB back, then capture", AutoSize = true };
     private readonly Button _proposeTrackedBtn = new() { Text = "Propose tracked USB devices", AutoSize = true };
 
+    private readonly ListView _settingsMonitorMappingsList = new()
+    {
+        Dock = DockStyle.Fill,
+        View = View.Details,
+        FullRowSelect = true,
+        GridLines = true,
+        MultiSelect = false,
+        HideSelection = false
+    };
+    private readonly Label _settingsSelectedMonitorLabel = new() { AutoSize = true, Text = "Display: -" };
+    private readonly TextBox _settingsPcValueText = new() { Width = 80 };
+    private readonly TextBox _settingsLaptopValueText = new() { Width = 80 };
+    private readonly Button _settingsSaveMappingBtn = new() { Text = "Save", AutoSize = true };
+    private readonly Button _settingsTestPcBtn = new() { Text = "Test PC", AutoSize = true };
+    private readonly Button _settingsTestLaptopBtn = new() { Text = "Test Laptop", AutoSize = true };
+    private readonly Button _settingsResetMappingBtn = new() { Text = "Reset to global", AutoSize = true };
+
+    private TabPage? _statusTab;
+    private TabPage? _monitorsTab;
+    private TabPage? _usbTab;
+    private TabPage? _wizardTab;
+    private TabPage? _settingsTab;
+    private bool _suppressSettingsEvents;
+
     private readonly Label _wizardSummary = new() { Dock = DockStyle.Fill, AutoSize = false, TextAlign = ContentAlignment.TopLeft };
+    private readonly TextBox _wizardGuideText = new()
+{
+    Dock = DockStyle.Fill,
+    Multiline = true,
+    ReadOnly = true,
+    ScrollBars = ScrollBars.Vertical,
+    BorderStyle = BorderStyle.None,
+    BackColor = SystemColors.Control,
+    Text = "Guided USB Wizard Guide\r\n\r\n"
+         + "1. Leave the USB switch on the PC and click 'Run guided USB wizard'.\r\n"
+         + "2. When prompted, switch the USB switch to the laptop and wait for the timer to finish.\r\n"
+         + "3. When prompted again, switch the USB switch back to the PC and wait for the timer to finish.\r\n"
+         + "4. The app will compare the three snapshots and learn which USB device families indicate that the switch is on the PC.\r\n\r\n"
+         + "Tip: Use the manual snapshot buttons only in Advanced mode if you need to troubleshoot or re-learn the device list step by step."
+};
     private readonly System.Windows.Forms.Timer _wizardTimer = new() { Interval = 10_000 };
     private readonly System.Windows.Forms.Timer _usbDebounceTimer = new() { Interval = 1500 };
     private readonly System.Windows.Forms.Timer _cooldownTimer = new() { Interval = 8000 };
@@ -197,6 +243,7 @@ public MainForm()
 	
     LoadConfig();
 	_config.SelectedMonitorIds ??= new List<string>();
+    _config.MonitorVcInputValues ??= new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
     _trackedFamilies = (_config.TrackedFamilies ?? new List<string>())
         .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
@@ -207,8 +254,22 @@ public MainForm()
 
     RefreshAll();
     LogInitialConfiguration();
-}
 
+    
+}
+private void EnsureSettingsMonitorMappingColumns()
+{
+    if (_settingsMonitorMappingsList.Columns.Count > 0)
+        return;
+
+    _settingsMonitorMappingsList.View = View.Details;
+    _settingsMonitorMappingsList.FullRowSelect = true;
+    _settingsMonitorMappingsList.GridLines = true;
+
+    _settingsMonitorMappingsList.Columns.Add("Display", 220);
+    _settingsMonitorMappingsList.Columns.Add("PC Input", 80);
+    _settingsMonitorMappingsList.Columns.Add("Laptop Input", 100);
+}
     protected override void OnShown(EventArgs e)
 {
     base.OnShown(e);
@@ -279,6 +340,8 @@ public MainForm()
         {
             _config = new AppConfig();
             _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            _config.MonitorVcInputValues ??= new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
+            _config.MonitorInputMappings ??= new Dictionary<string, MonitorInputMapping>(StringComparer.OrdinalIgnoreCase);
             return;
         }
 
@@ -287,6 +350,8 @@ public MainForm()
         _config.TrackedFamilies ??= new List<string>();
         _config.SelectedMonitorIds ??= new List<string>();
         _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        _config.MonitorVcInputValues ??= new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
+        _config.MonitorInputMappings ??= new Dictionary<string, MonitorInputMapping>(StringComparer.OrdinalIgnoreCase);
 
         Log($"Config loaded: {_configPath}");
     }
@@ -294,6 +359,8 @@ public MainForm()
     {
         _config = new AppConfig();
         _config.MonitorCustomNames ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        _config.MonitorVcInputValues ??= new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
+        _config.MonitorInputMappings ??= new Dictionary<string, MonitorInputMapping>(StringComparer.OrdinalIgnoreCase);
         Log($"Failed to load config: {ex}");
     }
 }
@@ -324,6 +391,10 @@ public MainForm()
     {
         _autoSwitchCheck.Checked = _config.AutoSwitchEnabled;
         _startMinimizedCheck.Checked = _config.StartMinimizedToTray;
+        _advancedModeCheck.Checked = _config.AdvancedMode;
+        _wizardDelayText.Text = Math.Max(1, _config.GuidedWizardDelaySeconds).ToString();
+        UpdateGuidedWizardDelayUi();
+        UpdateAdvancedModeUi();
     }
 
     private void SyncRunOnStartupFromSystem()
@@ -354,12 +425,129 @@ public MainForm()
         Log(_startMinimizedCheck.Checked
             ? "Start minimized to tray restored as enabled."
             : "Start minimized to tray restored as disabled.");
+
+        Log(_advancedModeCheck.Checked
+            ? "Advanced mode restored as enabled."
+            : "Advanced mode restored as disabled.");
+    }
+
+    private void UpdateAdvancedModeUi()
+    {
+        UpdateTabVisibility(_statusTab, _config.AdvancedMode, 0);
+        UpdateTabVisibility(_usbTab, _config.AdvancedMode, 2);
+
+        bool advanced = _config.AdvancedMode;
+        _snapshotBeforeBtn.Visible = advanced;
+        _snapshotAwayBtn.Visible = advanced;
+        _snapshotBackBtn.Visible = advanced;
+        _proposeTrackedBtn.Visible = advanced;
+
+        ConfigureMonitorColumns();
+        RefreshMonitors();
+    }
+
+    private void UpdateTabVisibility(TabPage? tabPage, bool shouldShow, int preferredIndex)
+    {
+        if (tabPage == null)
+            return;
+
+        bool isVisible = _tabs.TabPages.Contains(tabPage);
+        if (shouldShow && !isVisible)
+        {
+            int index = Math.Max(0, Math.Min(preferredIndex, _tabs.TabPages.Count));
+            _tabs.TabPages.Insert(index, tabPage);
+        }
+        else if (!shouldShow && isVisible)
+        {
+            _tabs.TabPages.Remove(tabPage);
+        }
     }
 
     private HashSet<string> GetSelectedMonitorIdSet()
     {
         return (_config.SelectedMonitorIds ?? new List<string>())
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private MonitorInputMapping? GetMonitorInputMapping(string key)
+    {
+        if (string.IsNullOrWhiteSpace(key))
+            return null;
+
+        if (_config.MonitorInputMappings.TryGetValue(key, out var mapping))
+            return mapping;
+
+        if (_config.MonitorVcInputValues.TryGetValue(key, out var legacyValue))
+        {
+            mapping = new MonitorInputMapping
+            {
+                PcInputValue = legacyValue,
+                LaptopInputValue = legacyValue
+            };
+            _config.MonitorInputMappings[key] = mapping;
+            SaveConfig();
+            return mapping;
+        }
+
+        return null;
+    }
+
+    private uint GetEffectiveMonitorInputValue(MonitorInfo monitor, bool toLaptop)
+    {
+        var key = GetMonitorSelectionKey(monitor);
+        var mapping = GetMonitorInputMapping(key);
+
+        if (mapping != null)
+        {
+            var customValue = toLaptop ? mapping.LaptopInputValue : mapping.PcInputValue;
+            if (customValue.HasValue)
+                return customValue.Value;
+        }
+
+        return toLaptop ? _config.LaptopInputValue : _config.PcInputValue;
+    }
+
+    private void SaveSelectedMonitorInputMapping()
+    {
+        var monitor = GetSelectedSettingsMonitor();
+        if (monitor == null)
+        {
+            MessageBox.Show(this, "Select a monitor in Settings first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        if (!TryGetSettingsEditorValues(out var pcValue, out var laptopValue))
+            return;
+
+        var key = GetMonitorSelectionKey(monitor);
+        _config.MonitorInputMappings[key] = new MonitorInputMapping
+        {
+            PcInputValue = pcValue,
+            LaptopInputValue = laptopValue
+        };
+        SaveConfig();
+        RefreshSettingsMonitorMappingsList();
+        Log($"Saved custom input mapping for '{GetDisplayName(monitor)}': PC={pcValue}, Laptop={laptopValue}.");
+    }
+
+    private bool TryGetSettingsEditorValues(out uint pcValue, out uint laptopValue)
+    {
+        pcValue = 0;
+        laptopValue = 0;
+
+        if (!uint.TryParse(_settingsPcValueText.Text.Trim(), out pcValue))
+        {
+            MessageBox.Show(this, "PC input value must be an unsigned integer.", "Invalid value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
+        if (!uint.TryParse(_settingsLaptopValueText.Text.Trim(), out laptopValue))
+        {
+            MessageBox.Show(this, "Laptop input value must be an unsigned integer.", "Invalid value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return false;
+        }
+
+        return true;
     }
 
 private string GetMonitorSelectionKey(MonitorInfo monitor)
@@ -400,38 +588,50 @@ private string GetDisplayName(MonitorInfo monitor)
     return monitor.DisplayName ?? string.Empty;
 }
 
+private string GetCurrentInputStatusLabel(MonitorInfo monitor)
+{
+    if (monitor == null || !monitor.IsAccessible)
+        return "Unknown";
+
+    if (!MonitorController.TryGetCurrentInput(monitor, out var currentValue))
+        return "Unknown";
+
+    var pcValue = GetEffectiveMonitorInputValue(monitor, toLaptop: false);
+    var laptopValue = GetEffectiveMonitorInputValue(monitor, toLaptop: true);
+
+    if (currentValue == pcValue)
+        return "PC";
+
+    if (currentValue == laptopValue)
+        return "Laptop";
+
+    return $"Other ({currentValue})";
+}
+
+
     private void BuildUi()
     {
         Controls.Add(_tabs);
 
-        // Status tab
-        var statusTab = new TabPage("Status");
-        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4 };
-        statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        statusPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        _statusTab = new TabPage("Status");
+        var statusPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 1 };
         statusPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-        statusPanel.Controls.Add(_autoSwitchCheck, 0, 0);
-        statusPanel.Controls.Add(_runOnStartupCheck, 0, 1);
-        statusPanel.Controls.Add(_startMinimizedCheck, 0, 2);
-        statusPanel.Controls.Add(_logBox, 0, 3);
-        statusTab.Controls.Add(statusPanel);
-        _tabs.TabPages.Add(statusTab);
+        statusPanel.Controls.Add(_logBox, 0, 0);
+        _statusTab.Controls.Add(statusPanel);
+        _tabs.TabPages.Add(_statusTab);
 
-        // Monitors tab
-        var monitorsTab = new TabPage("Monitors");
+        _monitorsTab = new TabPage("Monitors");
         var monitorsPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
         monitorsPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         monitorsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         var monitorButtons = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
-        monitorButtons.Controls.AddRange(new Control[] { _refreshMonitorsBtn, _renameMonitorBtn, _clearMonitorRenameBtn, _toPcBtn, _toLaptopBtn });
+        monitorButtons.Controls.AddRange(new Control[] { _refreshMonitorsBtn, _clearMonitorRenameBtn, _toPcBtn, _toLaptopBtn });
         monitorsPanel.Controls.Add(monitorButtons, 0, 0);
         monitorsPanel.Controls.Add(_monitorList, 0, 1);
-        monitorsTab.Controls.Add(monitorsPanel);
-        _tabs.TabPages.Add(monitorsTab);
+        _monitorsTab.Controls.Add(monitorsPanel);
+        _tabs.TabPages.Add(_monitorsTab);
 
-        // USB devices tab
-        var usbTab = new TabPage("USB Devices");
+        _usbTab = new TabPage("USB Devices");
         var usbPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
         usbPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         usbPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -439,35 +639,105 @@ private string GetDisplayName(MonitorInfo monitor)
         usbButtons.Controls.Add(_refreshUsbBtn);
         usbPanel.Controls.Add(usbButtons, 0, 0);
         usbPanel.Controls.Add(_usbList, 0, 1);
-        usbTab.Controls.Add(usbPanel);
-        _tabs.TabPages.Add(usbTab);
+        _usbTab.Controls.Add(usbPanel);
+        _tabs.TabPages.Add(_usbTab);
 
-        // Setup wizard tab
-        var wizardTab = new TabPage("Setup Wizard");
-        var wizardPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
+        _wizardTab = new TabPage("Setup Wizard");
+        var wizardPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3 };
         wizardPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-        wizardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+        wizardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 55));
+        wizardPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 45));
         var wizardButtons = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true };
         wizardButtons.Controls.AddRange(new Control[]
         {
             _guidedWizardBtn,
+            _wizardDelayLabel,
+            _wizardDelayText,
             _snapshotBeforeBtn,
             _snapshotAwayBtn,
             _snapshotBackBtn,
             _proposeTrackedBtn
         });
+        var wizardGuideGroup = new GroupBox { Text = "How to use the wizard", Dock = DockStyle.Fill, Padding = new Padding(10) };
+        wizardGuideGroup.Controls.Add(_wizardGuideText);
         wizardPanel.Controls.Add(wizardButtons, 0, 0);
         wizardPanel.Controls.Add(_wizardSummary, 0, 1);
-        wizardTab.Controls.Add(wizardPanel);
-        _tabs.TabPages.Add(wizardTab);
+        wizardPanel.Controls.Add(wizardGuideGroup, 0, 2);
+        _wizardTab.Controls.Add(wizardPanel);
+        _tabs.TabPages.Add(_wizardTab);
+
+        _settingsTab = new TabPage("Settings");
+        var settingsPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 4, Padding = new Padding(10) };
+        settingsPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        settingsPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        settingsPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        settingsPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+        var settingsTitle = new Label { Text = "Settings", AutoSize = true, Font = new Font(Font, FontStyle.Bold), Padding = new Padding(0, 0, 0, 8) };
+
+        var settingsChecks = new TableLayoutPanel { Dock = DockStyle.Top, ColumnCount = 2, RowCount = 2, AutoSize = true };
+        settingsChecks.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+        settingsChecks.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+        settingsChecks.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        settingsChecks.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        settingsChecks.Controls.Add(_autoSwitchCheck, 0, 0);
+        settingsChecks.Controls.Add(_runOnStartupCheck, 1, 0);
+        settingsChecks.Controls.Add(_startMinimizedCheck, 0, 1);
+        settingsChecks.Controls.Add(_advancedModeCheck, 1, 1);
+
+        var monitorMappingTitle = new Label
+        {
+            Text = "Per-monitor input mapping",
+            AutoSize = true,
+            Font = new Font(Font, FontStyle.Bold),
+            Padding = new Padding(0, 12, 0, 6)
+        };
+
+        var mappingPanel = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
+        mappingPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+        mappingPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        mappingPanel.Controls.Add(_settingsMonitorMappingsList, 0, 0);
+
+        var editorGroup = new GroupBox { Text = "Edit selected monitor mapping", Dock = DockStyle.Fill, AutoSize = true, Padding = new Padding(10) };
+        var editorLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 4, RowCount = 3, AutoSize = true };
+        editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+        editorLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        editorLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        editorLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        editorLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+        editorLayout.Controls.Add(_settingsSelectedMonitorLabel, 0, 0);
+        editorLayout.SetColumnSpan(_settingsSelectedMonitorLabel, 4);
+
+        editorLayout.Controls.Add(new Label { Text = "PC input:", AutoSize = true, Margin = new Padding(3, 8, 6, 0) }, 0, 1);
+        editorLayout.Controls.Add(_settingsPcValueText, 1, 1);
+        editorLayout.Controls.Add(new Label { Text = "Laptop input:", AutoSize = true, Margin = new Padding(16, 8, 6, 0) }, 2, 1);
+        editorLayout.Controls.Add(_settingsLaptopValueText, 3, 1);
+
+        var mappingButtons = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true };
+        mappingButtons.Controls.AddRange(new Control[] { _settingsSaveMappingBtn, _settingsTestPcBtn, _settingsTestLaptopBtn, _settingsResetMappingBtn });
+        editorLayout.Controls.Add(mappingButtons, 0, 2);
+        editorLayout.SetColumnSpan(mappingButtons, 4);
+
+        editorGroup.Controls.Add(editorLayout);
+        mappingPanel.Controls.Add(editorGroup, 0, 1);
+
+        settingsPanel.Controls.Add(settingsTitle, 0, 0);
+        settingsPanel.Controls.Add(settingsChecks, 0, 1);
+        settingsPanel.Controls.Add(monitorMappingTitle, 0, 2);
+        settingsPanel.Controls.Add(mappingPanel, 0, 3);
+        _settingsTab.Controls.Add(settingsPanel);
+        _tabs.TabPages.Add(_settingsTab);
     }
 
     private void WireEvents()
     {
         _refreshMonitorsBtn.Click += (_, _) => RefreshMonitors();
-        _renameMonitorBtn.Click += (_, _) => RenameSelectedMonitor();
         _clearMonitorRenameBtn.Click += (_, _) => ClearSelectedMonitorRename();
         _monitorList.ItemChecked += MonitorList_ItemChecked;
+        _monitorList.AfterLabelEdit += MonitorList_AfterLabelEdit;
         _refreshUsbBtn.Click += (_, _) => RefreshUsbDevices();
 
         _startupRefreshTimer.Tick += StartupRefreshTimer_Tick;
@@ -476,6 +746,8 @@ private string GetDisplayName(MonitorInfo monitor)
         _toLaptopBtn.Click += (_, _) => ManualSwitchSelectedMonitor(toLaptop: true);
 
         _guidedWizardBtn.Click += (_, _) => StartGuidedWizard();
+        _wizardDelayText.Leave += (_, _) => ApplyGuidedWizardDelaySetting();
+        _wizardDelayText.KeyDown += WizardDelayText_KeyDown;
         _wizardTimer.Tick += WizardTimer_Tick;
 
         _usbDebounceTimer.Tick += UsbDebounceTimer_Tick;
@@ -505,7 +777,8 @@ private string GetDisplayName(MonitorInfo monitor)
         _proposeTrackedBtn.Click += (_, _) =>
         {
             UpdateWizardSummary();
-            _tabs.SelectedIndex = 3;
+            if (_wizardTab != null)
+                _tabs.SelectedTab = _wizardTab;
         };
 
         _autoSwitchCheck.CheckedChanged += (_, _) =>
@@ -527,6 +800,12 @@ private string GetDisplayName(MonitorInfo monitor)
 
         _runOnStartupCheck.CheckedChanged += (_, _) => ApplyRunOnStartupSetting();
         _startMinimizedCheck.CheckedChanged += (_, _) => ApplyStartMinimizedSetting();
+        _advancedModeCheck.CheckedChanged += (_, _) => ApplyAdvancedModeSetting();
+        _settingsMonitorMappingsList.SelectedIndexChanged += (_, _) => LoadSelectedSettingsMonitorMapping();
+        _settingsSaveMappingBtn.Click += (_, _) => SaveSelectedMonitorInputMapping();
+        _settingsTestPcBtn.Click += (_, _) => TestSelectedMonitorMappingValue(toLaptop: false);
+        _settingsTestLaptopBtn.Click += (_, _) => TestSelectedMonitorMappingValue(toLaptop: true);
+        _settingsResetMappingBtn.Click += (_, _) => ResetSelectedMonitorInputMapping();
     }
 
 
@@ -561,7 +840,75 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
     Log($"Saved {selected.Count} selected monitor(s) for auto-switch.");
 }
 
-    private void ApplyRunOnStartupSetting()
+private void MonitorList_AfterLabelEdit(object? sender, LabelEditEventArgs e)
+{
+    if (e.Item < 0 || e.Item >= _monitorList.Items.Count)
+        return;
+
+    if (_monitorList.Items[e.Item].Tag is not MonitorInfo monitor)
+        return;
+
+    var key = GetMonitorSelectionKey(monitor);
+    if (string.IsNullOrWhiteSpace(key))
+    {
+        e.CancelEdit = true;
+        return;
+    }
+
+    var newLabel = e.Label?.Trim();
+
+    if (string.IsNullOrWhiteSpace(newLabel))
+    {
+        _config.MonitorCustomNames.Remove(key);
+        SaveConfig();
+        RefreshMonitors();
+        Log($"Cleared custom monitor name for '{monitor.BestName}'.");
+        return;
+    }
+
+    _config.MonitorCustomNames[key] = newLabel;
+    SaveConfig();
+    RefreshMonitors();
+    Log($"Saved custom monitor name '{newLabel}' for '{monitor.BestName}'.");
+}
+
+private void WizardDelayText_KeyDown(object? sender, KeyEventArgs e)
+{
+    if (e.KeyCode != Keys.Enter)
+        return;
+
+    ApplyGuidedWizardDelaySetting();
+    e.SuppressKeyPress = true;
+    e.Handled = true;
+}
+
+private void ApplyGuidedWizardDelaySetting()
+{
+    if (!int.TryParse(_wizardDelayText.Text?.Trim(), out var seconds) || seconds < 1)
+    {
+        seconds = Math.Max(1, _config.GuidedWizardDelaySeconds);
+        _wizardDelayText.Text = seconds.ToString();
+        MessageBox.Show(this, "Wizard delay must be a whole number of at least 1 second.", "Invalid delay", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+    }
+
+    if (_config.GuidedWizardDelaySeconds != seconds)
+    {
+        _config.GuidedWizardDelaySeconds = seconds;
+        SaveConfig();
+        Log($"Guided wizard delay set to {seconds} second(s).");
+    }
+
+    UpdateGuidedWizardDelayUi();
+}
+
+private void UpdateGuidedWizardDelayUi()
+{
+    var seconds = Math.Max(1, _config.GuidedWizardDelaySeconds);
+    _wizardTimer.Interval = seconds * 1000;
+    _wizardDelayText.Text = seconds.ToString();
+}
+
+        private void ApplyRunOnStartupSetting()
     {
         bool enabled = _runOnStartupCheck.Checked;
         bool success = StartupManager.SetEnabled(enabled);
@@ -593,43 +940,146 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
             : "Start minimized to tray disabled.");
     }
 
+    private void ApplyAdvancedModeSetting()
+    {
+        _config.AdvancedMode = _advancedModeCheck.Checked;
+        SaveConfig();
+        UpdateAdvancedModeUi();
+        Log(_config.AdvancedMode ? "Advanced mode enabled." : "Advanced mode disabled.");
+    }
+
+    private void LoadSelectedSettingsMonitorMapping()
+    {
+        if (_suppressSettingsEvents)
+            return;
+
+        _suppressSettingsEvents = true;
+        try
+        {
+            var monitor = GetSelectedSettingsMonitor();
+            if (monitor == null)
+            {
+                _settingsSelectedMonitorLabel.Text = "Display: -";
+                _settingsPcValueText.Text = string.Empty;
+                _settingsLaptopValueText.Text = string.Empty;
+                return;
+            }
+
+            var key = GetMonitorSelectionKey(monitor);
+            var mapping = GetMonitorInputMapping(key);
+            _settingsSelectedMonitorLabel.Text = $"Display: {GetDisplayName(monitor)}";
+            _settingsPcValueText.Text = (mapping?.PcInputValue ?? _config.PcInputValue).ToString();
+            _settingsLaptopValueText.Text = (mapping?.LaptopInputValue ?? _config.LaptopInputValue).ToString();
+        }
+        finally
+        {
+            _suppressSettingsEvents = false;
+        }
+    }
+
+    private MonitorInfo? GetSelectedSettingsMonitor()
+    {
+        if (_settingsMonitorMappingsList.SelectedItems.Count == 0)
+            return null;
+
+        return _settingsMonitorMappingsList.SelectedItems[0].Tag as MonitorInfo;
+    }
+
+    private void RefreshSettingsMonitorMappingsList()
+    {
+        _suppressSettingsEvents = true;
+        try
+        {
+            var selectedKey = GetSelectedSettingsMonitor() is MonitorInfo selectedMonitor
+                ? GetMonitorSelectionKey(selectedMonitor)
+                : string.Empty;
+
+            _settingsMonitorMappingsList.BeginUpdate();
+            _settingsMonitorMappingsList.Items.Clear();
+
+            foreach (var monitor in _monitors)
+            {
+                var key = GetMonitorSelectionKey(monitor);
+                var pcValue = GetEffectiveMonitorInputValue(monitor, toLaptop: false);
+                var laptopValue = GetEffectiveMonitorInputValue(monitor, toLaptop: true);
+
+                var item = new ListViewItem(new[]
+                {
+                    GetDisplayName(monitor),
+                    pcValue.ToString(),
+                    laptopValue.ToString()
+                });
+                item.Tag = monitor;
+                _settingsMonitorMappingsList.Items.Add(item);
+
+                if (!string.IsNullOrWhiteSpace(selectedKey) && string.Equals(selectedKey, key, StringComparison.OrdinalIgnoreCase))
+                    item.Selected = true;
+            }
+
+            EnsureSettingsMonitorMappingColumns();
+
+            if (_settingsMonitorMappingsList.SelectedItems.Count == 0 && _settingsMonitorMappingsList.Items.Count > 0)
+                _settingsMonitorMappingsList.Items[0].Selected = true;
+        }
+        finally
+        {
+            _settingsMonitorMappingsList.EndUpdate();
+            _suppressSettingsEvents = false;
+        }
+
+        LoadSelectedSettingsMonitorMapping();
+    }
+
+    private void TestSelectedMonitorMappingValue(bool toLaptop)
+    {
+        var monitor = GetSelectedSettingsMonitor();
+        if (monitor == null)
+        {
+            MessageBox.Show(this, "Select a monitor in Settings first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        if (!TryGetSettingsEditorValues(out var pcValue, out var laptopValue))
+            return;
+
+        var value = toLaptop ? laptopValue : pcValue;
+        var label = toLaptop ? "Laptop" : "PC";
+        bool ok = MonitorController.TrySetInput(monitor, value);
+        Log(ok
+            ? $"Sent {label} test input {value} to '{GetDisplayName(monitor)}'."
+            : $"Failed to send {label} test input {value} to '{GetDisplayName(monitor)}'.");
+    }
+
+    private void ResetSelectedMonitorInputMapping()
+    {
+        var monitor = GetSelectedSettingsMonitor();
+        if (monitor == null)
+        {
+            MessageBox.Show(this, "Select a monitor in Settings first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        var key = GetMonitorSelectionKey(monitor);
+        if (_config.MonitorInputMappings.Remove(key))
+        {
+            SaveConfig();
+            RefreshSettingsMonitorMappingsList();
+            Log($"Reset custom input mapping for '{GetDisplayName(monitor)}' to global defaults.");
+        }
+        else
+        {
+            LoadSelectedSettingsMonitorMapping();
+            Log($"'{GetDisplayName(monitor)}' is already using global input defaults.");
+        }
+    }
+
     private MonitorInfo? GetSelectedMonitor()
+
     {
         if (_monitorList.SelectedItems.Count == 0)
             return null;
 
         return _monitorList.SelectedItems[0].Tag as MonitorInfo;
-    }
-
-    private void RenameSelectedMonitor()
-    {
-        var selected = GetSelectedMonitor();
-        if (selected == null)
-        {
-            MessageBox.Show(this, "Select a monitor first.", "No monitor selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return;
-        }
-
-        var existingName = GetCustomMonitorName(selected);
-        var defaultValue = string.IsNullOrWhiteSpace(existingName) ? selected.BestName : existingName;
-
-        var input = Prompt.ShowDialog(
-            this,
-            $"Enter a custom name for '{selected.BestName}'",
-            "Rename monitor",
-            defaultValue);
-
-        if (string.IsNullOrWhiteSpace(input))
-            return;
-
-        var key = GetMonitorSelectionKey(selected);
-        if (string.IsNullOrWhiteSpace(key))
-            return;
-
-        _config.MonitorCustomNames[key] = input.Trim();
-        SaveConfig();
-        RefreshMonitors();
-        Log($"Saved custom monitor name '{input.Trim()}' for '{selected.BestName}'.");
     }
 
     private void ClearSelectedMonitorRename()
@@ -698,11 +1148,11 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
     private void ManualSwitchFromTray(List<MonitorInfo> monitors, bool toLaptop)
     {
-        uint inputValue = toLaptop ? _config.LaptopInputValue : _config.PcInputValue;
         string label = toLaptop ? "Laptop" : "PC";
 
         foreach (var monitor in monitors.Where(m => m.IsAccessible))
         {
+            var inputValue = GetEffectiveMonitorInputValue(monitor, toLaptop);
             bool ok = MonitorController.TrySetInput(monitor, inputValue);
             Log(ok
                 ? $"Tray switch: '{GetDisplayName(monitor)}' -> {label} ({inputValue})."
@@ -712,6 +1162,8 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
     private void StartGuidedWizard()
     {
+        ApplyGuidedWizardDelaySetting();
+
         if (_guidedWizardPhase != 0)
         {
             Log("Guided wizard is already running.");
@@ -723,7 +1175,8 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
         _snapshotBack = new List<DeviceInfo>();
 
         _guidedWizardPhase = 1;
-        _tabs.SelectedIndex = 3;
+        if (_wizardTab != null)
+                _tabs.SelectedTab = _wizardTab;
 
         _wizardSummary.Text =
             "Guided USB Wizard\r\n\r\n" +
@@ -732,7 +1185,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
             "The app will capture the 'away' snapshot automatically in 10 seconds.";
 
         Log($"Guided wizard: captured current USB snapshot: {_snapshotBefore.Count} devices.");
-        Log("Guided wizard: switch the USB switch to the laptop now. Capturing 'away' snapshot in 10 seconds.");
+        Log($"Guided wizard: switch the USB switch to the laptop now. Capturing 'away' snapshot in {Math.Max(1, _config.GuidedWizardDelaySeconds)} seconds.");
 
         _wizardTimer.Start();
     }
@@ -753,7 +1206,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
                 "Now switch the USB switch back to the PC.\r\n" +
                 "The app will capture the 'back' snapshot automatically in 10 seconds.";
 
-            Log("Guided wizard: switch the USB switch back to the PC now. Capturing 'back' snapshot in 10 seconds.");
+            Log($"Guided wizard: switch the USB switch back to the PC now. Capturing 'back' snapshot in {Math.Max(1, _config.GuidedWizardDelaySeconds)} seconds.");
             _wizardTimer.Start();
             return;
         }
@@ -854,7 +1307,6 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 
     private void AutoSwitchMonitors(bool toLaptop)
     {
-        uint inputValue = toLaptop ? _config.LaptopInputValue : _config.PcInputValue;
         string label = toLaptop ? "Laptop" : "PC";
 
         RefreshMonitors();
@@ -865,6 +1317,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 		m.IsAccessible &&
 		(selectedIds.Count == 0 || selectedIds.Contains(GetMonitorSelectionKey(m)))))
         {
+            var inputValue = GetEffectiveMonitorInputValue(monitor, toLaptop);
             bool ok = MonitorController.TrySetInput(monitor, inputValue);
             Log(ok
                 ? $"Auto-switched '{GetDisplayName(monitor)}' to {label} ({inputValue})."
@@ -893,10 +1346,12 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 				ReleaseMonitorHandles();
 
 				_monitors = MonitorController.GetMonitors();
+				ConfigureMonitorColumns();
 				_monitorList.BeginUpdate();
 				_monitorList.Items.Clear();
 
 				var selectedIds = GetSelectedMonitorIdSet();
+				bool advanced = _config.AdvancedMode;
 
 				foreach (var m in _monitors)
 				{
@@ -906,22 +1361,24 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 						? m.IsAccessible
 						: selectedIds.Contains(key);
 
-					var item = new ListViewItem(new[]
+					var values = new List<string>
 					{
 						GetDisplayName(m),
-						m.BestName,
-						m.DeviceId,
-						m.PhysicalDescription,
-                        m.BusReportedDescription,
+						GetCurrentInputStatusLabel(m),
 						m.IsAccessible ? "Yes" : "No"
-					});
+					};
 
+					if (advanced)
+					{
+						values.Add(m.BestName ?? string.Empty);
+						values.Add(m.DeviceId ?? string.Empty);
+					}
+
+					var item = new ListViewItem(values.ToArray());
 					item.Tag = m;
 					_monitorList.Items.Add(item);
 					item.Checked = isChecked;
 				}
-
-				EnsureMonitorColumns();
 			}
 			finally
 			{
@@ -929,6 +1386,7 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
 				_updatingMonitorChecks = false;
 			}
 
+			RefreshSettingsMonitorMappingsList();
 			Log($"Enumerated {_monitors.Count} monitor entries.");
 		}
 
@@ -1110,15 +1568,18 @@ private void MonitorList_ItemChecked(object? sender, ItemCheckedEventArgs e)
         };
     }
 
-private void EnsureMonitorColumns()
+private void ConfigureMonitorColumns()
 {
-    if (_monitorList.Columns.Count > 0) return;
+    _monitorList.Columns.Clear();
     _monitorList.Columns.Add("Display name", 220);
-    _monitorList.Columns.Add("Detected best name", 220);
-    _monitorList.Columns.Add("Device ID", 260);
-    _monitorList.Columns.Add("Physical description", 240);
-    _monitorList.Columns.Add("Bus-reported description", 220);
+    _monitorList.Columns.Add("Current", 100);
     _monitorList.Columns.Add("Input switch probe", 120);
+
+    if (_config.AdvancedMode)
+    {
+        _monitorList.Columns.Add("Detected best name", 220);
+        _monitorList.Columns.Add("Device ID", 260);
+    }
 }
 
     private void EnsureUsbColumns()
@@ -1130,6 +1591,12 @@ private void EnsureMonitorColumns()
         _usbList.Columns.Add("Location info", 180);
         _usbList.Columns.Add("Location paths", 320);
     }
+}
+
+internal sealed class MonitorInputMapping
+{
+    public uint? PcInputValue { get; set; }
+    public uint? LaptopInputValue { get; set; }
 }
 
 internal static class Prompt
@@ -1151,9 +1618,7 @@ internal static class Prompt
 internal sealed class MonitorInfo
 {
     public string DisplayName { get; init; } = "";
-	public string BusReportedDescription { get; init; } = "";
     public string MonitorDeviceName { get; init; } = "";
-    public string PhysicalDescription { get; init; } = "";
     public string DeviceId { get; init; } = "";
     public string DeviceString { get; init; } = "";
     public string EdidName { get; init; } = "";
@@ -1169,17 +1634,9 @@ internal sealed class MonitorInfo
             if (!string.IsNullOrWhiteSpace(EdidName))
                 return EdidName.Trim();
 
-            if (!string.IsNullOrWhiteSpace(BusReportedDescription) &&
-                !string.Equals(BusReportedDescription, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
-                return BusReportedDescription.Trim();
-
             if (!string.IsNullOrWhiteSpace(DeviceString) &&
                 !string.Equals(DeviceString, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
                 return DeviceString.Trim();
-
-            if (!string.IsNullOrWhiteSpace(PhysicalDescription) &&
-                !string.Equals(PhysicalDescription, "Generic PnP Monitor", StringComparison.OrdinalIgnoreCase))
-                return PhysicalDescription.Trim();
 
             var parsed = MonitorNameResolver.TryGetFallbackNameFromDeviceId(DeviceId);
             if (!string.IsNullOrWhiteSpace(parsed))
@@ -1311,68 +1768,6 @@ internal static class MonitorRegistryReader
     }
 }
 
-	public static string? TryGetBusReportedDescription(string deviceId)
-{
-    if (string.IsNullOrWhiteSpace(deviceId))
-        return null;
-
-    var classGuid = NativeMethods.GUID_DEVCLASS_MONITOR;
-
-    IntPtr infoSet = NativeMethods.SetupDiGetClassDevs(
-        ref classGuid,
-        null,
-        IntPtr.Zero,
-        NativeMethods.DIGCF_PRESENT);
-
-    if (infoSet == NativeMethods.INVALID_HANDLE_VALUE)
-        return null;
-
-    try
-    {
-        uint index = 0;
-        while (true)
-        {
-            var devInfo = new NativeMethods.SP_DEVINFO_DATA();
-            devInfo.cbSize = (uint)Marshal.SizeOf<NativeMethods.SP_DEVINFO_DATA>();
-
-            if (!NativeMethods.SetupDiEnumDeviceInfo(infoSet, index, ref devInfo))
-            {
-                int err = Marshal.GetLastWin32Error();
-                if (err == NativeMethods.ERROR_NO_MORE_ITEMS)
-                    break;
-
-                return null;
-            }
-
-            index++;
-
-            var instanceId = GetDeviceInstanceId(infoSet, ref devInfo);
-            if (string.IsNullOrWhiteSpace(instanceId))
-                continue;
-
-            if (!IsSameMonitorHardware(instanceId, deviceId))
-                continue;
-
-            if (TryGetDevicePropertyString(
-                infoSet,
-                ref devInfo,
-                NativeMethods.DEVPKEY_Device_BusReportedDeviceDesc,
-                out var value))
-            {
-                return string.IsNullOrWhiteSpace(value) ? null : value;
-            }
-
-            return null;
-        }
-    }
-    finally
-    {
-        NativeMethods.SetupDiDestroyDeviceInfoList(infoSet);
-    }
-
-    return null;
-}
-	
 	public static string? TryGetEdidName(string deviceId)
     {
         if (string.IsNullOrWhiteSpace(deviceId))
@@ -1524,7 +1919,6 @@ internal static class MonitorController
 
 			var (deviceId, deviceString) = MonitorNameResolver.GetMonitorDeviceForDisplay(mi.szDevice);
 			var edidName = MonitorRegistryReader.TryGetEdidName(deviceId) ?? string.Empty;
-			var busReportedDescription = MonitorRegistryReader.TryGetBusReportedDescription(deviceId) ?? string.Empty;
 
             if (NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, out uint count) && count > 0)
             {
@@ -1540,11 +1934,9 @@ internal static class MonitorController
 						{
 							DisplayName = mi.szDevice,
 							MonitorDeviceName = mi.szDevice,
-							PhysicalDescription = pm.szPhysicalMonitorDescription,
 							DeviceId = deviceId,
 							DeviceString = deviceString,
 							EdidName = edidName,
-							BusReportedDescription = busReportedDescription,
 							HMonitor = hMonitor,
 							PhysicalHandle = pm.hPhysicalMonitor,
 							HasPhysicalHandle = hasHandle,
@@ -1569,6 +1961,21 @@ internal static class MonitorController
             return false;
 
         return NativeMethods.SetVCPFeature(monitor.PhysicalHandle, 0x60, inputValue);
+    }
+
+    public static bool TryGetCurrentInput(MonitorInfo monitor, out uint currentValue)
+    {
+        currentValue = 0;
+
+        if (monitor.PhysicalHandle == IntPtr.Zero)
+            return false;
+
+        return NativeMethods.GetVCPFeatureAndVCPFeatureReply(
+            monitor.PhysicalHandle,
+            0x60,
+            out _,
+            out currentValue,
+            out _);
     }
 
     private static bool TryProbeInputSwitch(IntPtr physicalHandle)
